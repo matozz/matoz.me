@@ -32,8 +32,6 @@ export const Container: React.FC<Props> = ({ children, fullWidth, ...meta }) => 
   const [customMetaTags, setCustomMetaTags] = useState<NextHeadSeoProps['customLinkTags']>([]);
   const [alreadySet, setAlreadySet] = useState<boolean>(false);
 
-  console.log(meta);
-
   const root = useMemo(() => {
     return router.pathname === '/';
   }, [router]);
@@ -112,7 +110,7 @@ export const Container: React.FC<Props> = ({ children, fullWidth, ...meta }) => 
         <main
           className={classNames('m-auto w-full flex-grow transition-all', {
             'px-4 md:px-24': fullWidth,
-            'max-w-2xl px-4': !fullWidth,
+            'max-w-2xl px-6': !fullWidth,
           })}
         >
           {children}

@@ -1,6 +1,6 @@
+import { ArrowLeft } from 'lucide-react';
 import { ExtendedRecordMap } from 'notion-types';
 
-import Image from 'next/image';
 import { useRouter } from 'next/router';
 
 import BLOG from '@/blog.config';
@@ -36,14 +36,7 @@ export const Layout: React.FC<Props> = ({
       {post?.type?.[0] !== 'Page' && (
         <nav className="my-4 flex items-center text-gray-500 dark:text-gray-300">
           <div className="flex">
-            <Image
-              alt={BLOG.author}
-              width={24}
-              height={24}
-              src="https://avatars.githubusercontent.com/u/56786508?v=4"
-              className="rounded-full"
-            />
-            <p className="ml-2 md:block">{BLOG.author}</p>
+            <p className="md:block">{BLOG.author}</p>
             <span className="block">&nbsp;/&nbsp;</span>
             <div className="mr-2 md:ml-0">
               {formatDate(post?.date?.start_date || post.createdTime, BLOG.lang)}
@@ -79,10 +72,10 @@ export const Layout: React.FC<Props> = ({
       <div className="flex justify-between pt-4 font-medium text-gray-500 dark:text-gray-400">
         <button
           onClick={() => router.push('/')}
-          className="cursor-pointer hover:text-black dark:hover:text-gray-100"
+          className="flex cursor-pointer items-center gap-1 hover:text-black dark:hover:text-gray-100"
           type="button"
         >
-          ← {locale?.POST.BACK}
+          <ArrowLeft /> {locale?.POST.BACK}
         </button>
         <a
           href={getTwitterShareUrl({
