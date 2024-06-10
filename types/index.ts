@@ -11,6 +11,7 @@ export type Post = {
   summary?: string;
   lang?: string[];
   tags?: string[];
+  link?: string;
   date: {
     start_date?: string;
   };
@@ -26,7 +27,6 @@ export type BlogConfig = {
   author: string;
   email: string;
   link: string;
-  repository: string;
   description: string;
   lang: 'en-US' | 'zh-CN' | 'zh-HK' | 'zh-TW' | 'ja-JP' | 'es-ES';
   appearance: 'dark' | 'light';

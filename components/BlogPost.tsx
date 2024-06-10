@@ -1,3 +1,5 @@
+import { ExternalLink } from 'lucide-react';
+
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -10,6 +12,8 @@ type Props = {
 };
 
 export const BlogPost: React.FC<Props> = ({ post }) => {
+  const isExternal = Boolean(post.link);
+
   const renderBlogPost = () => {
     return (
       <article
@@ -20,10 +24,11 @@ export const BlogPost: React.FC<Props> = ({ post }) => {
           <time className="mb-2 inline-block text-sm text-gray-600 dark:text-gray-400">
             {formatDate(post?.date?.start_date || post.createdTime, BLOG.lang)}
           </time>
-          <div className="flex">
-            <h2 className="mb-2 cursor-pointer text-lg font-medium text-black dark:text-white md:text-xl">
+          <div className="mb-2 flex items-start gap-1">
+            <h2 className="cursor-pointer text-lg font-medium text-black dark:text-white md:text-xl">
               {post.title}
             </h2>
+            {isExternal && <ExternalLink size={16} className="text-blue-500 dark:text-blue-400" />}
           </div>
         </header>
         {post?.thumbnail_url && (
@@ -43,5 +48,5 @@ export const BlogPost: React.FC<Props> = ({ post }) => {
     );
   };
 
-  return <Link href={`/posts/${post.slug}`}>{renderBlogPost()}</Link>;
+  return <Link href={post.link || `/posts/${post.slug}`}>{renderBlogPost()}</Link>;
 };
