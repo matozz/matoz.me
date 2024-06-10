@@ -40,14 +40,14 @@ const NavBar: React.FC = () => {
       <ul className="flex flex-row">
         {links.map((link) => (
           <div key={link.id}>
-            <li
+            <div
               className={classNames(
                 'ml-4 hidden items-center text-gray-500 dark:text-gray-300 lg:flex',
                 { '!text-blue-500 dark:!text-blue-400': link.to === activeNav },
               )}
             >
               <Link href={link.to}>{link.name}</Link>
-            </li>
+            </div>
             <button
               aria-label={link.name}
               title={link.name}
