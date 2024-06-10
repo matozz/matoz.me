@@ -6,7 +6,6 @@ const BLOG: BlogConfig = {
   email: 'matoztech@gmail.com',
   link: 'https://matoz.tech',
   description: 'made with love ❤️.',
-  repository: 'https://github.com/matozz/matoz.tech',
   lang: 'en-US', // ['en-US', 'zh-CN', 'zh-HK', 'zh-TW', 'ja-JP', 'es-ES']
   appearance: 'light', // ['light', 'dark'],
   lightBackground: '#ffffff', // use hex value, don't forget '#' e.g #fffefc

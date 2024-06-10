@@ -1,13 +1,7 @@
 {
   "eslint.nodePath": "node_modules",
   "eslint.workingDirectories": [{ "mode": "auto" }],
-  "eslint.validate": [
-    "html",
-    "javascript",
-    "typescript",
-    "javascriptreact",
-    "typescriptreact"
-  ],
+  "eslint.validate": ["html", "javascript", "typescript", "javascriptreact", "typescriptreact"],
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.formatOnPaste": false,
   "editor.formatOnSave": true,
