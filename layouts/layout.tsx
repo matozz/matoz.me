@@ -86,7 +86,7 @@ export const Layout: React.FC<Props> = ({
           target="_blank"
           rel="noreferrer noopener"
           aria-label="share with x"
-          className="ml-auto cursor-pointer border-blue-500 text-blue-500 underline dark:border-blue-400 dark:text-blue-400"
+          className="ml-auto cursor-pointer text-blue-500 underline opacity-80 hover:opacity-100 dark:border-blue-400 dark:text-blue-400"
         >
           {locale?.POST.SHARE}
         </a>

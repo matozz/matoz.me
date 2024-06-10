@@ -35,7 +35,7 @@ svg + .notion-page-title-text {
 }
 
 .notion-bookmark {
-  @apply rounded-lg border-2 border-blue-500 dark:border-blue-400 !important;
+  @apply rounded-lg border-2 border-blue-500 border-opacity-80 dark:border-blue-400 dark:border-opacity-80 !important;
 }
 
 .notion-bookmark .notion-bookmark-title,
@@ -48,7 +48,7 @@ svg + .notion-page-title-text {
 }
 
 .notion-bookmark:hover {
-  @apply border-blue-400 dark:border-blue-500 !important;
+  @apply border-opacity-100 dark:border-opacity-100 !important;
 }
 
 .notion-viewport {
@@ -107,6 +107,7 @@ svg + .notion-page-title-text {
 }
 
 a.notion-link {
+  @apply opacity-80;
   @apply border-b-[1.5px] border-blue-500 text-blue-500 dark:border-blue-400 dark:text-blue-400 !important;
 }
 
