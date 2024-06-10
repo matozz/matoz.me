@@ -1,0 +1,36 @@
+{
+  "tabWidth": 2,
+  "useTabs": false,
+  "singleQuote": true,
+  "jsxSingleQuote": false,
+  "arrowParens": "always",
+  "trailingComma": "all",
+  "printWidth": 100,
+  "overrides": [
+    {
+      "files": [
+        "**/.eslintrc"
+      ],
+      "options": {
+        "parser": "json"
+      }
+    }
+  ],
+  "importOrderSeparation": true,
+  "importOrderCaseInsensitive": true,
+  "importOrder": [
+    "^react",
+    "^@react",
+    "^[^@/\\.][^/\\.]*$",
+    "^@(?!/)|^[a-zA-Z]",
+    "^@(?=/)",
+    "^..(?!.*(css|scss)$).*$",
+    "^.(?!.*(css|scss)$).*$",
+    "module.s?css$",
+    "s?css$"
+  ],
+  "plugins": [
+    "@trivago/prettier-plugin-sort-imports",
+    "prettier-plugin-tailwindcss"
+  ]
+}
