@@ -126,7 +126,7 @@ export const Header: React.FC<HeaderProps> = ({ fullWidth, metaTitle }) => {
               <Image
                 width={32}
                 height={32}
-                src="	https://avatars.githubusercontent.com/u/56786508?v=4"
+                src="https://avatars.githubusercontent.com/u/56786508?v=4"
                 alt="Back to home"
                 title="Back to home"
                 className="cursor-pointer transition-transform duration-300 hover:scale-110 active:scale-90"
