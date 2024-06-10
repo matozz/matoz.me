@@ -35,7 +35,7 @@ svg + .notion-page-title-text {
 }
 
 .notion-bookmark {
-  @apply rounded-lg border-2 border-blue-400 dark:border-blue-500 !important;
+  @apply rounded-lg border-2 border-blue-500 dark:border-blue-400 !important;
 }
 
 .notion-bookmark .notion-bookmark-title,
@@ -48,7 +48,7 @@ svg + .notion-page-title-text {
 }
 
 .notion-bookmark:hover {
-  @apply border-blue-400 !important;
+  @apply border-blue-400 dark:border-blue-500 !important;
 }
 
 .notion-viewport {
