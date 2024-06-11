@@ -9,6 +9,7 @@ import Link from 'next/link';
 
 interface LinkPreviewProps {
   url: string;
+  name?: string;
   className?: string;
   width?: number;
   height?: number;
@@ -22,6 +23,7 @@ const LinkPreview: FC<PropsWithChildren<LinkPreviewProps>> = (props) => {
   const {
     url,
     icon,
+    name,
     className,
     width = 160,
     height = 100,
@@ -66,10 +68,11 @@ const LinkPreview: FC<PropsWithChildren<LinkPreviewProps>> = (props) => {
 
       <HoverCard openDelay={50} closeDelay={100} onOpenChange={setOpen}>
         <HoverCardTrigger
+          href={url}
+          target="_blank"
+          aria-label={name}
           onMouseMove={handleMouseMove}
           className={classNames('font-medium', className)}
-          target="_blank"
-          href={url}
         >
           <span className="inline-flex items-baseline gap-[2px]">
             {icon && <span className="self-center">{icon}</span>}
@@ -100,8 +103,9 @@ const LinkPreview: FC<PropsWithChildren<LinkPreviewProps>> = (props) => {
                 <Link
                   href={url}
                   target="_blank"
-                  className="block rounded-xl border-2 border-transparent bg-white p-1 shadow-xl dark:bg-gray-200"
+                  aria-label={name}
                   style={{ fontSize: 0 }}
+                  className="block rounded-xl border-2 border-transparent bg-white p-1 shadow-xl dark:bg-gray-200"
                 >
                   <Image
                     src={imageUrl}

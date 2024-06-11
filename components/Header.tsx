@@ -37,7 +37,7 @@ const NavBar: React.FC = () => {
         />
       </Head>
 
-      <ul className="flex flex-row">
+      <div className="flex flex-row">
         {links.map((link) => (
           <div key={link.id}>
             <div
@@ -62,7 +62,7 @@ const NavBar: React.FC = () => {
             </button>
           </div>
         ))}
-      </ul>
+      </div>
 
       <button
         aria-label="Toggle Dark Mode"

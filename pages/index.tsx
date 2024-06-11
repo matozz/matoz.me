@@ -52,7 +52,7 @@ const Blog: NextPage = () => {
           <LinkPreview
             url="https://www.youtube.com/channel/UCOuYh9OBqmZrNEk3eUC9XKg"
             icon={<YoutubeIcon height={14} />}
-            className="text-red-600"
+            className="text-red-500"
           >
             YouTube
           </LinkPreview>
@@ -61,7 +61,7 @@ const Blog: NextPage = () => {
 
           <LinkPreview
             url="https://space.bilibili.com/35815755"
-            icon={<BilibiliIcon height={14} className="text-blue-500" />}
+            icon={<BilibiliIcon height={14} />}
             className="text-blue-500"
           >
             哔哩哔哩
