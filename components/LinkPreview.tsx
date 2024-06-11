@@ -78,7 +78,7 @@ const LinkPreview: FC<PropsWithChildren<LinkPreviewProps>> = (props) => {
         </HoverCardTrigger>
 
         <HoverCardContent
-          className="[transform-origin:var(--radix-hover-card-content-transform-origin)]"
+          className="z-20 [transform-origin:var(--radix-hover-card-content-transform-origin)]"
           side="top"
           align="center"
           sideOffset={10}
