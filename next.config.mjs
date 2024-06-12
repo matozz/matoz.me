@@ -11,7 +11,7 @@ const nextConfig = {
   swcMinify: true,
   reactStrictMode: true,
   images: {
-    remotePatterns: [{ hostname: 'gravatar.com' }, { hostname: 'avatars.githubusercontent.com' }],
+    remotePatterns: [{ hostname: 'avatars.githubusercontent.com' }],
   },
   async headers() {
     return [
