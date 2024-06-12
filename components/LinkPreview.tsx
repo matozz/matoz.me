@@ -97,7 +97,7 @@ const LinkPreview: FC<PropsWithChildren<LinkPreviewProps>> = (props) => {
                   transition: { type: 'spring', stiffness: 260, damping: 20 },
                 }}
                 exit={{ opacity: 0, y: 20, scale: 0.6 }}
-                className="shadow-outer-full rounded-xl"
+                className="rounded-xl shadow-outer-full"
                 style={{ x: translateX }}
               >
                 <Link

@@ -22,18 +22,13 @@ const FlipWords = (props: FlipWordsProps) => {
   }, [currentWord, words]);
 
   useEffect(() => {
-    if (!isAnimating)
-      setTimeout(() => {
-        startAnimation();
-      }, duration);
+    if (!isAnimating) {
+      setTimeout(() => startAnimation(), duration);
+    }
   }, [isAnimating, duration, startAnimation]);
 
   return (
-    <AnimatePresence
-      onExitComplete={() => {
-        setIsAnimating(false);
-      }}
-    >
+    <AnimatePresence onExitComplete={() => setIsAnimating(false)}>
       <motion.div
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
@@ -53,7 +48,7 @@ const FlipWords = (props: FlipWordsProps) => {
           position: 'absolute',
         }}
         className={classNames(
-          'relative z-10 inline-block text-left text-neutral-900 dark:text-neutral-100',
+          'absolute z-10 inline-block text-left text-neutral-700 dark:text-neutral-100',
           className,
         )}
         key={currentWord}

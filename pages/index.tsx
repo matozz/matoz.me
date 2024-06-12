@@ -9,33 +9,36 @@ import { YoutubeIcon, XIcon, GithubIcon, GumroadIcon, BilibiliIcon } from '@/lib
 const Blog: NextPage = () => {
   return (
     <Container title={BLOG.title} description={BLOG.description}>
-      <div className="mt-10 text-gray-600 dark:text-gray-400 md:mt-0">
-        <h1 className="mb-6 text-4xl font-semibold dark:text-white">Matoz</h1>
+      <div className="mt-10 text-neutral-600 dark:text-neutral-400 md:mt-0">
+        <h1 className="mb-6 text-4xl font-semibold dark:text-neutral-100">Matoz</h1>
+
         <div className="my-6">
-          {`Hey, I am Matoz, a `}
-          <FlipWords words={['frontend developer.', 'music producer.']} />
+          {`Hey, I am Matoz, a`}&nbsp;
+          <FlipWords words={['frontend developer.', 'music producer.']} className="font-medium" />
         </div>
 
         <div className="my-6">
           {`If you are curious about the open source projects I work on, you can find them on my `}
 
           <LinkPreview
+            name="GitHub"
             url="https://github.com/matozz"
-            icon={<GithubIcon height={14} className="text-black dark:text-white" />}
-            className="text-gray-700 dark:text-gray-300"
+            icon={<GithubIcon height={14} className="text-black dark:text-neutral-100" />}
+            className="text-neutral-700 dark:text-neutral-300"
           >
             GitHub
           </LinkPreview>
 
           {` profile. I enjoy discussing technology and often share articles and insights on `}
 
-          <LinkPreview url="https://twitter.com/_matozz">
-            <XIcon height={12} className="text-black dark:text-gray-200" />
+          <LinkPreview name="X" url="https://twitter.com/_matozz">
+            <XIcon height={12} className="text-black dark:text-neutral-100" />
           </LinkPreview>
 
           {`. My `}
 
           <LinkPreview
+            name="Instagram"
             url="https://www.instagram.com/matozmusic"
             className="bg-gradient-to-br from-purple-500 to-orange-500 bg-clip-text text-transparent"
           >
@@ -50,6 +53,7 @@ const Blog: NextPage = () => {
           {`For those who love music production and want to learn more, check out my `}
 
           <LinkPreview
+            name="YouTube"
             url="https://www.youtube.com/channel/UCOuYh9OBqmZrNEk3eUC9XKg"
             icon={<YoutubeIcon height={14} />}
             className="text-red-500"
@@ -60,6 +64,7 @@ const Blog: NextPage = () => {
           {` and `}
 
           <LinkPreview
+            name="Bilibili"
             url="https://space.bilibili.com/35815755"
             icon={<BilibiliIcon height={14} />}
             className="text-blue-500"
