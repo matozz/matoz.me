@@ -4,7 +4,7 @@ const BLOG: BlogConfig = {
   title: 'Matoz',
   author: 'Matoz',
   email: 'matoztech@gmail.com',
-  link: 'https://matoz.tech',
+  link: 'https://matoz.me',
   description: 'made with love ❤️.',
   lang: 'en-US', // ['en-US', 'zh-CN', 'zh-HK', 'zh-TW', 'ja-JP', 'es-ES']
   appearance: 'light', // ['light', 'dark'],
