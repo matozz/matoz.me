@@ -108,10 +108,13 @@ export const Container: React.FC<Props> = ({ children, fullWidth, ...meta }) => 
       <div className={classNames('wrapper', 'font-sans', inter.variable)}>
         <Header fullWidth={fullWidth} metaTitle={meta.title} />
         <main
-          className={classNames('m-auto w-full flex-grow transition-all', {
-            'px-4 md:px-24': fullWidth,
-            'max-w-2xl px-6': !fullWidth,
-          })}
+          className={classNames(
+            'relative m-auto w-screen flex-grow overflow-x-hidden transition-all',
+            {
+              'px-4 md:px-24': fullWidth,
+              'max-w-2xl px-6': !fullWidth,
+            },
+          )}
         >
           {children}
         </main>

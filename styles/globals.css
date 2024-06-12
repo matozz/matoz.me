@@ -31,7 +31,8 @@ body::-webkit-scrollbar-thumb {
 
 .wrapper {
   min-height: 100vh;
-  min-width: 100vw;
+  max-width: 100vw;
+  width: 100vw;
   display: flex;
   flex-wrap: nowrap;
   align-items: stretch;
@@ -41,7 +42,7 @@ body::-webkit-scrollbar-thumb {
 
 .sticky-nav {
   position: sticky;
-  z-index: 10;
+  z-index: 20;
   top: -1px;
   backdrop-filter: blur(8px);
   transition: all 0.5s cubic-bezier(0.4, 0, 0, 1);
