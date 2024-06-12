@@ -15,10 +15,10 @@ export const Footer: React.FC<Props> = ({ fullWidth }) => {
         },
       )}
     >
-      <hr className="border-gray-200 dark:border-gray-700" />
+      <hr className="border-neutral-200 dark:border-gray-700" />
       <div className="my-4 text-sm leading-6">
         <div className="flex flex-wrap justify-between align-baseline">
-          <p>{`${BLOG.since ? `${BLOG.since} ` : ''}© ${BLOG.author}`}</p>
+          <p>{`${BLOG.since ? `${BLOG.since}-PRESENT ` : ''}© ${BLOG.author}`}</p>
         </div>
       </div>
     </div>

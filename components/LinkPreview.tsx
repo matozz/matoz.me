@@ -72,9 +72,10 @@ const LinkPreview: FC<PropsWithChildren<LinkPreviewProps>> = (props) => {
           target="_blank"
           aria-label={name}
           onMouseMove={handleMouseMove}
-          className={classNames('font-medium', className)}
         >
-          <span className="inline-flex items-baseline gap-[2px]">
+          <span
+            className={classNames('inline-flex items-baseline gap-[2px] font-medium', className)}
+          >
             {icon && <span className="self-center">{icon}</span>}
             {children}
           </span>

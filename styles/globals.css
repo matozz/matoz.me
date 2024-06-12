@@ -31,6 +31,8 @@ body::-webkit-scrollbar-thumb {
 
 .wrapper {
   min-height: 100vh;
+  max-width: 100vw;
+  width: 100vw;
   display: flex;
   flex-wrap: nowrap;
   align-items: stretch;
@@ -40,7 +42,7 @@ body::-webkit-scrollbar-thumb {
 
 .sticky-nav {
   position: sticky;
-  z-index: 10;
+  z-index: 20;
   top: -1px;
   backdrop-filter: blur(8px);
   transition: all 0.5s cubic-bezier(0.4, 0, 0, 1);
@@ -49,10 +51,6 @@ body::-webkit-scrollbar-thumb {
 
 .remove-sticky {
   position: unset;
-}
-
-.sticky-nav-full {
-  @apply border-b border-gray-200 border-opacity-50 dark:border-gray-600 dark:border-opacity-50;
 }
 
 .header-name {
