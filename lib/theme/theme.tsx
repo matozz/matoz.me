@@ -1,5 +1,7 @@
 import { createContext, FC, PropsWithChildren, useContext, useEffect, useState } from 'react';
 
+import Head from 'next/head';
+
 import BLOG from '@/blog.config';
 
 type Theme = 'light' | 'dark';
@@ -51,6 +53,12 @@ export const ThemeProvider: FC<PropsWithChildren> = ({ children }) => {
 
   return (
     <ThemeContext.Provider value={{ theme, setTheme, toggleTheme }}>
+      <Head>
+        <meta
+          name="theme-color"
+          content={theme === 'dark' ? BLOG.darkBackground : BLOG.lightBackground}
+        />
+      </Head>
       {children}
     </ThemeContext.Provider>
   );

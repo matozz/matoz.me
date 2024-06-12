@@ -3,7 +3,6 @@ import { useCallback, useEffect, useMemo, useRef } from 'react';
 import classNames from 'classnames';
 import { FileText, Moon, Rss, Sun, User } from 'lucide-react';
 
-import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -30,13 +29,6 @@ const NavBar: React.FC = () => {
 
   return (
     <div className="flex flex-shrink-0 items-center">
-      <Head>
-        <meta
-          name="theme-color"
-          content={theme === 'dark' ? BLOG.darkBackground : BLOG.lightBackground}
-        />
-      </Head>
-
       <div className="flex flex-row">
         {links.map((link) => (
           <div key={link.id}>
