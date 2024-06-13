@@ -1,4 +1,4 @@
-import { FC, MouseEventHandler, PropsWithChildren, useEffect, useState } from 'react';
+import { FC, MouseEventHandler, PropsWithChildren, useState } from 'react';
 
 import classNames from 'classnames';
 import { AnimatePresence, motion, useMotionValue, useSpring } from 'framer-motion';
@@ -34,7 +34,6 @@ const LinkPreview: FC<PropsWithChildren<LinkPreviewProps>> = (props) => {
   } = props;
 
   const [isOpen, setOpen] = useState(true);
-  const [isMounted, setIsMounted] = useState(false);
 
   const springConfig = { stiffness: 100, damping: 15 };
   const x = useMotionValue(0);
@@ -48,84 +47,59 @@ const LinkPreview: FC<PropsWithChildren<LinkPreviewProps>> = (props) => {
     x.set(offsetFromCenter);
   };
 
-  useEffect(() => setIsMounted(true), []);
-
   return (
-    <>
-      {isMounted && (
-        <div className="hidden">
-          <Image
-            src={imageUrl}
-            width={width}
-            height={height}
-            quality={quality}
-            layout={layout}
-            priority={true}
-            alt="hidden image"
-          />
-        </div>
-      )}
+    <HoverCard openDelay={50} closeDelay={100} onOpenChange={setOpen}>
+      <HoverCardTrigger href={url} target="_blank" aria-label={name} onMouseMove={handleMouseMove}>
+        <span className={classNames('inline-flex items-baseline gap-[2px] font-medium', className)}>
+          {icon && <span className="self-center">{icon}</span>}
+          {children}
+        </span>
+      </HoverCardTrigger>
 
-      <HoverCard openDelay={50} closeDelay={100} onOpenChange={setOpen}>
-        <HoverCardTrigger
-          href={url}
-          target="_blank"
-          aria-label={name}
-          onMouseMove={handleMouseMove}
-        >
-          <span
-            className={classNames('inline-flex items-baseline gap-[2px] font-medium', className)}
-          >
-            {icon && <span className="self-center">{icon}</span>}
-            {children}
-          </span>
-        </HoverCardTrigger>
-
-        <HoverCardContent
-          className="z-20 [transform-origin:var(--radix-hover-card-content-transform-origin)]"
-          side="top"
-          align="center"
-          sideOffset={10}
-        >
-          <AnimatePresence>
-            {isOpen && (
-              <motion.div
-                initial={{ opacity: 0, y: 20, scale: 0.6 }}
-                animate={{
-                  opacity: 1,
-                  y: 0,
-                  scale: 1,
-                  transition: { type: 'spring', stiffness: 260, damping: 20 },
-                }}
-                exit={{ opacity: 0, y: 20, scale: 0.6 }}
-                className="rounded-xl shadow-outer-full"
-                style={{ x: translateX }}
+      <HoverCardContent
+        className="z-20 [transform-origin:var(--radix-hover-card-content-transform-origin)]"
+        side="top"
+        align="center"
+        sideOffset={10}
+      >
+        <AnimatePresence>
+          {isOpen && (
+            <motion.div
+              initial={{ opacity: 0, y: 20, scale: 0.6 }}
+              animate={{
+                opacity: 1,
+                y: 0,
+                scale: 1,
+                transition: { type: 'spring', stiffness: 260, damping: 20 },
+              }}
+              exit={{ opacity: 0, y: 20, scale: 0.6 }}
+              className="rounded-xl shadow-outer-full"
+              style={{ x: translateX }}
+            >
+              <Link
+                href={url}
+                target="_blank"
+                aria-label={name}
+                style={{ fontSize: 0 }}
+                className="block rounded-xl border-2 border-transparent bg-white p-1 shadow-xl dark:bg-gray-200"
               >
-                <Link
-                  href={url}
-                  target="_blank"
-                  aria-label={name}
-                  style={{ fontSize: 0 }}
-                  className="block rounded-xl border-2 border-transparent bg-white p-1 shadow-xl dark:bg-gray-200"
-                >
-                  <Image
-                    src={imageUrl}
-                    width={width}
-                    height={height}
-                    quality={quality}
-                    layout={layout}
-                    priority={true}
-                    objectFit="cover"
-                    className="h-[100px] rounded-lg object-cover"
-                    alt="preview image"
-                  />
-                </Link>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </HoverCardContent>
-      </HoverCard>
-    </>
+                <Image
+                  src={imageUrl}
+                  width={width}
+                  height={height}
+                  quality={quality}
+                  layout={layout}
+                  priority={true}
+                  objectFit="cover"
+                  className="h-[100px] rounded-lg object-cover"
+                  alt="preview image"
+                />
+              </Link>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </HoverCardContent>
+    </HoverCard>
   );
 };
 
