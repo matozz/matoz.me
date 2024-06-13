@@ -90,9 +90,9 @@ const Blog: NextPage = () => {
 
         <div className="my-6">
           {`Connect me on `}
-          <Link href="mailto:hi@matoz.me">
+          <Link href={`mailto:${BLOG.email}`}>
             <span className="font-mono text-neutral-700 underline decoration-neutral-300 transition-all hover:decoration-neutral-500 dark:text-neutral-300 dark:decoration-neutral-600 dark:hover:decoration-neutral-400">
-              hi@matoz.me
+              {BLOG.email}
             </span>
           </Link>
           {` and let's inspire each other!`}

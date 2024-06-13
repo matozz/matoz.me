@@ -72,6 +72,7 @@ export const Container: React.FC<Props> = ({ children, fullWidth, ...meta }) => 
           title: meta.title,
           url: router.asPath,
           type: meta.type ?? 'website',
+          locale: BLOG.lang,
           description: meta.description,
           siteName: BLOG.title,
           images: [
@@ -81,10 +82,6 @@ export const Container: React.FC<Props> = ({ children, fullWidth, ...meta }) => 
           ],
         }}
         additionalMetaTags={customMetaTags.concat(
-          {
-            property: 'og:locale',
-            content: BLOG.lang,
-          },
           {
             name: 'google-site-verification',
             content: BLOG.seo.googleSiteVerification,

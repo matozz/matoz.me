@@ -3,7 +3,7 @@ import { BlogConfig } from './types';
 const BLOG: BlogConfig = {
   title: 'Matoz',
   author: 'Matoz',
-  email: 'matoztech@gmail.com',
+  email: 'hi@matoz.me',
   link: 'https://matoz.me',
   description: 'made with love ❤️.',
   lang: 'en-US', // ['en-US', 'zh-CN', 'zh-HK', 'zh-TW', 'ja-JP', 'es-ES']
@@ -17,7 +17,7 @@ const BLOG: BlogConfig = {
   autoCollapsedNavBar: false, // The automatically collapsed navigation bar
   ogImageGenerateURL: 'https://simple-og-image.vercel.app', // The link to generate OG image, don't end with a slash
   seo: {
-    keywords: ['matoz'],
+    keywords: ['matoz', 'develop', 'frontend', 'tech'],
     googleSiteVerification: '', // Remove the value or replace it with your own google site verification code
   },
   notionPageId: process.env.NOTION_PAGE_ID as string, // DO NOT CHANGE THIS！！！
