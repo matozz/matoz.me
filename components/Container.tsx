@@ -9,6 +9,7 @@ import { useRouter } from 'next/router';
 import BLOG from '@/blog.config';
 import { Footer, Header } from '@/components';
 import { getOGImageURL } from '@/lib/getOGImageURL';
+import { useTheme } from '@/lib/theme';
 
 type Props = {
   children: React.ReactNode;
@@ -27,6 +28,8 @@ const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 
 export const Container: React.FC<Props> = ({ children, fullWidth, ...meta }) => {
   const router = useRouter();
+  const { theme } = useTheme();
+
   const [customMetaTags, setCustomMetaTags] = useState<
     NonNullable<NextSeoProps['additionalMetaTags']>
   >([]);
@@ -64,6 +67,7 @@ export const Container: React.FC<Props> = ({ children, fullWidth, ...meta }) => 
         description={meta.description}
         nofollow={true}
         canonical={router.asPath}
+        themeColor={theme === 'dark' ? BLOG.darkBackground : BLOG.lightBackground}
         openGraph={{
           title: meta.title,
           url: router.asPath,

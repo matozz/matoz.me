@@ -1,5 +1,7 @@
 import { NextPage } from 'next';
 
+import Link from 'next/link';
+
 import BLOG from '@/blog.config';
 import { Container } from '@/components';
 import FlipWords from '@/components/FlipWords';
@@ -86,7 +88,15 @@ const Blog: NextPage = () => {
           {` where they are available for purchase.`}
         </div>
 
-        <div className="my-6">{`Connect with me and let's inspire each other!`}</div>
+        <div className="my-6">
+          {`Connect me on `}
+          <Link href="mailto:hi@matoz.me">
+            <span className="font-mono text-neutral-700 underline decoration-neutral-300 transition-all hover:decoration-neutral-500 dark:text-neutral-300 dark:decoration-neutral-600 dark:hover:decoration-neutral-400">
+              hi@matoz.me
+            </span>
+          </Link>
+          {` and let's inspire each other!`}
+        </div>
       </div>
     </Container>
   );
