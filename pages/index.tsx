@@ -12,7 +12,12 @@ const Blog: NextPage = () => {
   return (
     <Container title={BLOG.title} description={BLOG.description}>
       <div className="mt-10 text-neutral-600 dark:text-neutral-400 md:mt-0">
-        <h1 className="mb-6 text-4xl font-semibold dark:text-neutral-100">Matoz</h1>
+        <h1 className="mb-6 text-4xl font-semibold text-neutral-800 dark:text-neutral-100">
+          {`Matoz `}
+          <span className="my-6 font-mono text-sm font-medium text-neutral-600 dark:text-neutral-400">
+            {`@${BLOG.company}`}
+          </span>
+        </h1>
 
         <div className="my-6">
           {`Hey, I am Matoz, a`}&nbsp;

@@ -4,6 +4,7 @@ const BLOG: BlogConfig = {
   title: 'Matoz',
   author: 'Matoz',
   email: 'hi@matoz.me',
+  company: 'Bytedance',
   link: 'https://matoz.me',
   description: 'made with love ❤️.',
   lang: 'en-US', // ['en-US', 'zh-CN', 'zh-HK', 'zh-TW', 'ja-JP', 'es-ES']
