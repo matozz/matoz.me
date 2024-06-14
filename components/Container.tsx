@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 
 import classNames from 'classnames';
-import NextHeadSeo from 'next-head-seo';
+import { NextSeo, NextSeoProps } from 'next-seo';
 
 import { Inter } from 'next/font/google';
 import { useRouter } from 'next/router';
@@ -9,8 +9,7 @@ import { useRouter } from 'next/router';
 import BLOG from '@/blog.config';
 import { Footer, Header } from '@/components';
 import { getOGImageURL } from '@/lib/getOGImageURL';
-
-type NextHeadSeoProps = Parameters<typeof NextHeadSeo>[0];
+import { useTheme } from '@/lib/theme';
 
 type Props = {
   children: React.ReactNode;
@@ -29,7 +28,11 @@ const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 
 export const Container: React.FC<Props> = ({ children, fullWidth, ...meta }) => {
   const router = useRouter();
-  const [customMetaTags, setCustomMetaTags] = useState<NextHeadSeoProps['customLinkTags']>([]);
+  const { theme } = useTheme();
+
+  const [customMetaTags, setCustomMetaTags] = useState<
+    NonNullable<NextSeoProps['additionalMetaTags']>
+  >([]);
   const [alreadySet, setAlreadySet] = useState<boolean>(false);
 
   const root = useMemo(() => {
@@ -59,30 +62,26 @@ export const Container: React.FC<Props> = ({ children, fullWidth, ...meta }) => 
 
   return (
     <div>
-      <NextHeadSeo
+      <NextSeo
         title={meta.title}
         description={meta.description}
-        robots={'index, follow'}
+        nofollow={true}
         canonical={router.asPath}
-        og={{
+        themeColor={theme === 'dark' ? BLOG.darkBackground : BLOG.lightBackground}
+        openGraph={{
           title: meta.title,
           url: router.asPath,
           type: meta.type ?? 'website',
+          locale: BLOG.lang,
           description: meta.description,
-          image: getOGImageURL({
-            title: siteTitle,
-            root,
-            twitter: false,
-          }),
+          siteName: BLOG.title,
+          images: [
+            {
+              url: getOGImageURL({ title: siteTitle, root, twitter: false }),
+            },
+          ],
         }}
-        customMetaTags={(customMetaTags ?? []).concat(
-          {
-            charSet: 'UTF-8',
-          },
-          {
-            property: 'og:locale',
-            content: BLOG.lang,
-          },
+        additionalMetaTags={customMetaTags.concat(
           {
             name: 'google-site-verification',
             content: BLOG.seo.googleSiteVerification,
@@ -101,7 +100,7 @@ export const Container: React.FC<Props> = ({ children, fullWidth, ...meta }) => 
           },
         )}
         twitter={{
-          card: 'summary_large_image',
+          cardType: 'summary_large_image',
           site: '@_matozz',
         }}
       />
