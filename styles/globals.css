@@ -2,26 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
-html {
-  --scrollbarBG: #ffffff00;
-  --thumbBG: #b8b8b8;
-}
-body::-webkit-scrollbar {
-  width: 5px;
-}
-body {
-  scrollbar-width: thin;
-  scrollbar-color: var(--thumbBG) var(--scrollbarBG);
-}
-body::-webkit-scrollbar-track {
-  background: var(--scrollbarBG);
-}
-body::-webkit-scrollbar-thumb {
-  background-color: var(--thumbBG);
-}
-
 ::selection {
   background: rgba(45, 170, 219, 0.3);
+}
+
+.magnet-bg {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  z-index: 0;
+  inset: 0;
+  pointer-events: none;
+  --magnet-color: rgba(130, 130, 130, 0.2);
+  --magnet-size: 1;
+  --magnet-gap: 40;
+  --magnet-radius: 200;
+  background: paint(magnet-matrix);
 }
 
 .lucide {

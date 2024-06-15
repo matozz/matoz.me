@@ -18,7 +18,7 @@ export const BlogPost: React.FC<Props> = ({ post }) => {
     return (
       <article
         key={post.id}
-        className="mb-6 mt-2 transition-transform ease-out hover:scale-105 hover:opacity-90 md:mb-8"
+        className="mb-6 mt-2 transition-transform ease-out md:mb-8 md:hover:scale-105 md:hover:opacity-90"
       >
         <header>
           <time className="mb-2 inline-block text-sm text-gray-600 dark:text-gray-400">

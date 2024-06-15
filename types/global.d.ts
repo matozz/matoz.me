@@ -1,7 +1,7 @@
 import Gtag from 'gtag.js';
 
 declare global {
-  interface Window {
-    gtag: Gtag.Gtag;
+  namespace CSS {
+    let paintWorklet: { addModule: (module: string) => void } | undefined;
   }
 }
