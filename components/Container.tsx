@@ -11,6 +11,8 @@ import { Footer, Header } from '@/components';
 import { getOGImageURL } from '@/lib/getOGImageURL';
 import { useTheme } from '@/lib/theme';
 
+import MagnetBackground from './MagnetBackground';
+
 type Props = {
   children: React.ReactNode;
   layout?: 'blog';
@@ -119,6 +121,8 @@ export const Container: React.FC<Props> = ({ children, fullWidth, ...meta }) => 
         </main>
         <Footer fullWidth={fullWidth} />
       </div>
+
+      <MagnetBackground />
     </div>
   );
 };

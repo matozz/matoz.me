@@ -6,6 +6,20 @@
   background: rgba(45, 170, 219, 0.3);
 }
 
+.magnet-bg {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  z-index: 0;
+  inset: 0;
+  pointer-events: none;
+  --magnet-color: rgba(130, 130, 130, 0.2);
+  --magnet-size: 1;
+  --magnet-gap: 40;
+  --magnet-radius: 200;
+  background: paint(magnet-matrix);
+}
+
 .lucide {
   width: 1.25rem;
   /* height: 1.25rem; */
