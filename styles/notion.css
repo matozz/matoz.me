@@ -129,11 +129,11 @@ a.notion-page-link {
 
 /* code */
 .notion-code {
-  @apply rounded-md border-gray-400 bg-gray-50 p-4 dark:border-gray-600 dark:bg-gray-800 !important;
+  @apply flex overflow-hidden rounded-md border-gray-400 bg-gray-50 p-4 dark:border-gray-600 dark:bg-gray-800 !important;
 }
 
 .notion code {
-  @apply border-none bg-none p-0 text-gray-700 shadow-none dark:text-gray-300;
+  @apply overflow-auto border-none bg-none p-0 text-gray-700 shadow-none dark:text-gray-300;
 }
 
 .notion-code-copy-button {
@@ -151,7 +151,8 @@ pre[class*='language-'] {
   @apply text-gray-100;
 }
 
-pre::-webkit-scrollbar {
+pre::-webkit-scrollbar,
+code::-webkit-scrollbar {
   @apply hidden;
 }
 
