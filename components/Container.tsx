@@ -62,17 +62,25 @@ export const Container: React.FC<Props> = ({ children, fullWidth, ...meta }) => 
     setAlreadySet(true);
   }, [alreadySet, meta]);
 
+  const canonical = `${BLOG.link}${router.asPath}`;
+
   return (
     <div>
       <NextSeo
         title={meta.title}
         description={meta.description}
         nofollow={true}
-        canonical={router.asPath}
+        canonical={canonical}
+        robotsProps={{
+          nosnippet: false,
+          notranslate: false,
+          noimageindex: false,
+          noarchive: false,
+        }}
         themeColor={theme === 'dark' ? BLOG.darkBackground : BLOG.lightBackground}
         openGraph={{
           title: meta.title,
-          url: router.asPath,
+          url: canonical,
           type: meta.type ?? 'website',
           locale: BLOG.lang,
           description: meta.description,
