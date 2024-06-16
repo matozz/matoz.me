@@ -71,7 +71,7 @@ const Blog: NextPage = () => {
           {` and `}
 
           <LinkPreview
-            name="Bilibili"
+            name="哔哩哔哩"
             url="https://space.bilibili.com/35815755"
             icon={<BilibiliIcon height={14} />}
             className="text-blue-500"
