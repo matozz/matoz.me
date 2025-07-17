@@ -10,7 +10,7 @@ const __dirname = path.dirname(__filename);
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    remotePatterns: [{ hostname: 'avatars.githubusercontent.com' }],
+    remotePatterns: [{ hostname: 'avatars.githubusercontent.com' }, { hostname: 'www.notion.so' }],
   },
   async headers() {
     return [

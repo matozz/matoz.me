@@ -26,10 +26,10 @@ export const TagTabItem: React.FC<Props> = ({ tagKey, selected, ...rest }) => {
 
   return (
     <li
-      className={classNames('mr-3 block min-w-max whitespace-nowrap rounded-lg font-bold', {
+      className={classNames('mr-3 block min-w-max rounded-lg font-bold whitespace-nowrap', {
         'border-gray-100 text-gray-400 hover:bg-gray-100 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-700':
           !selected,
-        'bg-gray-200 text-gray-700 dark:text-night': selected,
+        'dark:text-night bg-gray-200 text-gray-700': selected,
       })}
     >
       <Link href={linkUrl} scroll={false} className="flex items-center px-4 py-2" passHref>

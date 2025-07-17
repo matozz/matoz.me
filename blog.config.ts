@@ -12,7 +12,7 @@ const BLOG: BlogConfig = {
   lightBackground: '#ffffff', // use hex value, don't forget '#' e.g #fffefc
   darkBackground: '#18181B', // use hex value, don't forget '#'
   profileSlug: 'about',
-  since: 2021, // If leave this empty, current year will be used.
+  since: new Date().getFullYear(), // If leave this empty, current year will be used.
   postsPerPage: 7,
   sortByDate: true,
   autoCollapsedNavBar: false, // The automatically collapsed navigation bar

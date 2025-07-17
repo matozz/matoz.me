@@ -11,7 +11,7 @@ import { YoutubeIcon, XIcon, GithubIcon, GumroadIcon, BilibiliIcon } from '@/lib
 const Blog: NextPage = () => {
   return (
     <Container title={BLOG.title} description={BLOG.description}>
-      <div className="mt-10 text-neutral-600 dark:text-neutral-400 md:mt-0">
+      <div className="mt-10 text-neutral-600 md:mt-0 dark:text-neutral-400">
         <h1 className="mb-6 text-4xl font-semibold text-neutral-800 dark:text-neutral-100">
           {`Matoz `}
           <span className="my-6 font-mono text-sm font-medium text-neutral-600 dark:text-neutral-400">
@@ -47,7 +47,7 @@ const Blog: NextPage = () => {
           <LinkPreview
             name="Instagram"
             url="https://www.instagram.com/matozmusic"
-            className="bg-gradient-to-br from-purple-500 to-orange-500 bg-clip-text text-transparent"
+            className="bg-linear-to-br from-purple-500 to-orange-500 bg-clip-text text-transparent"
           >
             Instagram
           </LinkPreview>

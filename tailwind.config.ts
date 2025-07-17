@@ -1,6 +1,6 @@
 import type { Config } from 'tailwindcss';
 
-import { fontFamily } from 'tailwindcss/defaultTheme';
+import theme from 'tailwindcss/defaultTheme';
 
 import BLOG from './blog.config';
 
@@ -10,7 +10,6 @@ export default {
     './components/**/*.{js,ts,jsx,tsx}',
     './layouts/**/*.{js,ts,jsx,tsx}',
   ],
-  mode: 'jit',
   darkMode: 'class',
   theme: {
     extend: {
@@ -22,12 +21,9 @@ export default {
         'outer-full': '0 0px 4px 0 rgba(0, 0, 0, 0.1)',
       },
       fontFamily: {
-        sans: ['var(--font-inter)', ...fontFamily.sans],
+        sans: ['var(--font-inter)', ...theme.fontFamily.sans],
       },
     },
-  },
-  variants: {
-    extend: {},
   },
   plugins: [],
 } satisfies Config;

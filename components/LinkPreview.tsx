@@ -57,7 +57,7 @@ const LinkPreview: FC<PropsWithChildren<LinkPreviewProps>> = (props) => {
       </HoverCardTrigger>
 
       <HoverCardContent
-        className="z-20 [transform-origin:var(--radix-hover-card-content-transform-origin)]"
+        className="z-20 origin-(--radix-hover-card-content-transform-origin)"
         side="top"
         align="center"
         sideOffset={10}
@@ -73,7 +73,7 @@ const LinkPreview: FC<PropsWithChildren<LinkPreviewProps>> = (props) => {
                 transition: { type: 'spring', stiffness: 260, damping: 20 },
               }}
               exit={{ opacity: 0, y: 20, scale: 0.6 }}
-              className="rounded-xl shadow-outer-full"
+              className="shadow-outer-full rounded-xl"
               style={{ x: translateX }}
             >
               <Link
