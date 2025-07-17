@@ -1,5 +1,6 @@
 import 'react-notion-x/src/styles.css';
 
+import { Analytics } from '@vercel/analytics/next';
 import type { AppProps } from 'next/app';
 
 import { LocaleProvider } from '@/lib/i18n';
@@ -12,6 +13,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
     <LocaleProvider>
       <ThemeProvider>
         <Component {...pageProps} />
+        <Analytics />
       </ThemeProvider>
     </LocaleProvider>
   );

@@ -28,14 +28,14 @@ const NavBar: React.FC = () => {
   }, [router]);
 
   return (
-    <div className="flex flex-shrink-0 items-center">
+    <div className="flex shrink-0 items-center">
       <div className="flex flex-row">
         {links.map((link) => (
           <div key={link.id}>
             <div
               className={classNames(
-                'ml-4 hidden items-center text-gray-500 dark:text-gray-300 lg:flex',
-                { '!text-blue-500 dark:!text-blue-400': link.to === activeNav },
+                'ml-4 hidden items-center text-gray-500 lg:flex dark:text-gray-300',
+                { 'text-blue-500! dark:text-blue-400!': link.to === activeNav },
               )}
             >
               <Link href={link.to}>{link.name}</Link>
@@ -45,8 +45,9 @@ const NavBar: React.FC = () => {
               title={link.name}
               type="button"
               className={classNames(
-                'ml-1 flex h-8 w-8 items-center justify-center rounded p-1 text-gray-500 transition-transform duration-200 hover:scale-110 active:scale-90 dark:text-gray-300 sm:ml-4 lg:hidden',
-                { '!text-blue-500 dark:!text-blue-400': link.to === activeNav },
+                'ml-1 flex h-8 w-8 cursor-pointer items-center justify-center rounded p-1 text-gray-500',
+                'transition-transform duration-200 hover:scale-110 active:scale-90 sm:ml-4 lg:hidden dark:text-gray-300',
+                { 'text-blue-500! dark:text-blue-400!': link.to === activeNav },
               )}
               onClick={() => router.push(link.to)}
             >
@@ -59,7 +60,7 @@ const NavBar: React.FC = () => {
       <button
         aria-label="Toggle Dark Mode"
         type="button"
-        className="ml-1 h-8 w-8 rounded p-1 text-gray-500 transition-transform duration-200 hover:scale-110 active:scale-90 dark:text-gray-300 sm:ml-4"
+        className="ml-1 h-8 w-8 rounded p-1 text-gray-500 transition-transform duration-200 hover:scale-110 active:scale-90 sm:ml-4 dark:text-gray-300"
         onClick={() => toggleTheme()}
       >
         {theme === 'light' ? <Sun /> : <Moon />}
@@ -103,7 +104,7 @@ export const Header: React.FC<HeaderProps> = ({ fullWidth, metaTitle }) => {
       <div className="h-2 md:h-12" ref={sentinalRef} />
       <div
         className={classNames(
-          'sticky-nav m-auto mb-2 flex h-6 w-full flex-row items-center justify-between bg-opacity-60 py-8 md:mb-12',
+          'sticky-nav bg-opacity-60 m-auto mb-2 flex h-6 w-full flex-row items-center justify-between py-8 md:mb-12',
           {
             'px-4 md:px-24': fullWidth,
             'max-w-3xl px-6': !fullWidth,

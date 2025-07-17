@@ -8,10 +8,9 @@ const __dirname = path.dirname(__filename);
  * @type {import('next').NextConfig}
  **/
 const nextConfig = {
-  swcMinify: true,
   reactStrictMode: true,
   images: {
-    remotePatterns: [{ hostname: 'avatars.githubusercontent.com' }],
+    remotePatterns: [{ hostname: 'avatars.githubusercontent.com' }, { hostname: 'www.notion.so' }],
   },
   async headers() {
     return [

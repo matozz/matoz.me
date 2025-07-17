@@ -1,3 +1,6 @@
+@import 'tailwindcss';
+@config '../tailwind.config.ts';
+
 /* NOTION CSS OVERRIDE */
 
 .notion {
@@ -35,7 +38,7 @@ svg + .notion-page-title-text {
 }
 
 .notion-bookmark {
-  @apply rounded-lg border-2 border-blue-500 border-opacity-80 dark:border-blue-400 dark:border-opacity-80 !important;
+  @apply rounded-lg border-1 border-gray-500/30 dark:border-gray-400/30;
 }
 
 .notion-bookmark .notion-bookmark-title,
@@ -47,9 +50,9 @@ svg + .notion-page-title-text {
   @apply text-gray-700 dark:text-gray-300;
 }
 
-.notion-bookmark:hover {
-  @apply border-opacity-100 dark:border-opacity-100 !important;
-}
+/* .notion-bookmark:hover {
+  @apply border-opacity-100 dark:border-opacity-100;
+} */
 
 .notion-viewport {
   z-index: -10;
@@ -75,7 +78,7 @@ svg + .notion-page-title-text {
 
 .notion-quote {
   padding: 0.2em 0.9em;
-  @apply text-base !important;
+  @apply text-base;
 }
 
 .notion-collection-row {
@@ -87,7 +90,7 @@ svg + .notion-page-title-text {
 }
 
 .notion-collection > .notion-collection-header {
-  @apply px-0 !important;
+  @apply px-0;
 }
 
 .notion-collection-header > .notion-collection-view-type {
@@ -95,11 +98,11 @@ svg + .notion-page-title-text {
 }
 
 .notion-collection > .notion-table {
-  @apply max-w-full !important;
+  @apply max-w-full;
 }
 
 .notion-collection > .notion-table > .notion-table-view {
-  @apply px-0 !important;
+  @apply px-0;
 }
 
 .notion-table-cell.notion-table-cell-text {
@@ -108,7 +111,7 @@ svg + .notion-page-title-text {
 
 a.notion-link {
   @apply opacity-80;
-  @apply border-b-[1.5px] border-blue-500 text-blue-500 dark:border-blue-400 dark:text-blue-400 !important;
+  @apply border-b-[1.5px] border-blue-500 text-blue-500 dark:border-blue-400 dark:text-blue-400;
 }
 
 a.notion-page-link {
@@ -129,7 +132,7 @@ a.notion-page-link {
 
 /* code */
 .notion-code {
-  @apply flex overflow-hidden rounded-md border-gray-400 bg-gray-50 p-4 dark:border-gray-600 dark:bg-gray-800 !important;
+  @apply flex overflow-hidden rounded-md border-gray-400 bg-gray-50 p-4 dark:border-gray-600 dark:bg-gray-800;
 }
 
 .notion code {
@@ -165,7 +168,7 @@ pre {
 .token.entity,
 .token.url,
 .token.variable {
-  @apply bg-transparent !important;
+  @apply bg-transparent;
 }
 
 pre[class*='language-'] > code {
@@ -181,7 +184,7 @@ pre[class*='language-'] > code {
   min-height: 192px;
   max-width: 100%;
   max-height: 100%;
-  @apply border-2 border-gray-300 bg-gray-100 dark:border-day dark:bg-gray-900;
+  @apply dark:border-day border-2 border-gray-300 bg-gray-100 dark:bg-gray-900;
 }
 
 @keyframes fluid {
