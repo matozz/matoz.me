@@ -17,7 +17,10 @@ const compat = new FlatCompat({
 export default defineConfig([
   globalIgnores(['**/*.d.ts', '.next']),
   {
-    extends: compat.extends('plugin:@typescript-eslint/recommended'),
+    extends: compat.extends(
+      'plugin:@typescript-eslint/recommended',
+      'plugin:@next/next/recommended',
+    ),
     plugins: {
       prettier,
     },
