@@ -14,7 +14,6 @@ interface LinkPreviewProps {
   width?: number;
   height?: number;
   quality?: number;
-  layout?: string;
   icon?: React.ReactNode;
   imageUrl?: string;
 }
@@ -28,12 +27,11 @@ const LinkPreview: FC<PropsWithChildren<LinkPreviewProps>> = (props) => {
     width = 160,
     height = 100,
     quality = 50,
-    layout = 'fixed',
     imageUrl = 'https://avatars.githubusercontent.com/u/56786508?v=4',
     children,
   } = props;
 
-  const [isOpen, setOpen] = useState(true);
+  const [isOpen, setOpen] = useState(false);
 
   const springConfig = { stiffness: 100, damping: 15 };
   const x = useMotionValue(0);
@@ -41,7 +39,7 @@ const LinkPreview: FC<PropsWithChildren<LinkPreviewProps>> = (props) => {
   const translateX = useSpring(x, springConfig);
 
   const handleMouseMove: MouseEventHandler<HTMLAnchorElement> = (event) => {
-    const targetRect = (event.target as Element).getBoundingClientRect();
+    const targetRect = event.currentTarget.getBoundingClientRect();
     const eventOffsetX = event.clientX - targetRect.left;
     const offsetFromCenter = (eventOffsetX - targetRect.width / 2) / 2; // Reduce the effect to make it subtle
     x.set(offsetFromCenter);
@@ -49,7 +47,13 @@ const LinkPreview: FC<PropsWithChildren<LinkPreviewProps>> = (props) => {
 
   return (
     <HoverCard openDelay={50} closeDelay={100} onOpenChange={setOpen}>
-      <HoverCardTrigger href={url} target="_blank" aria-label={name} onMouseMove={handleMouseMove}>
+      <HoverCardTrigger
+        href={url}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={name}
+        onMouseMove={handleMouseMove}
+      >
         <span className={classNames('inline-flex items-baseline gap-[2px] font-medium', className)}>
           {icon && <span className="self-center">{icon}</span>}
           {children}
@@ -88,9 +92,6 @@ const LinkPreview: FC<PropsWithChildren<LinkPreviewProps>> = (props) => {
                   width={width}
                   height={height}
                   quality={quality}
-                  layout={layout}
-                  priority={true}
-                  objectFit="cover"
                   className="h-[100px] rounded-lg object-cover"
                   alt="preview image"
                 />

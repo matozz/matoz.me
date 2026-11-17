@@ -31,8 +31,8 @@ export const Layout: React.FC<Props> = ({
   const router = useRouter();
 
   const renderContents = () => (
-    <article className="mb-8 mt-4 md:mt-0">
-      <h1 className="text-2xl font-bold text-black dark:text-white md:text-3xl">{post.title}</h1>
+    <article className="mt-4 mb-8 md:mt-0">
+      <h1 className="text-2xl font-bold text-black md:text-3xl dark:text-white">{post.title}</h1>
       {post?.type?.[0] !== 'Page' && (
         <nav className="my-4 flex items-center text-gray-500 dark:text-gray-300">
           <div className="flex">
@@ -43,7 +43,7 @@ export const Layout: React.FC<Props> = ({
             </div>
           </div>
           {post.tags && (
-            <div className="article-tags mb-1 mt-2 flex max-w-full flex-nowrap overflow-x-auto">
+            <div className="article-tags mt-2 mb-1 flex max-w-full flex-nowrap overflow-x-auto">
               {post.tags.map((tag) => (
                 <TagItem key={tag} tag={tag} />
               ))}
@@ -62,7 +62,7 @@ export const Layout: React.FC<Props> = ({
       layout="blog"
       title={post.title}
       description={post.summary}
-      date={new Date(post.createdTime).toISOString()}
+      date={new Date(post.date?.start_date || post.createdTime).toISOString()}
       type="article"
       fullWidth={fullWidth}
       slug={slug}
@@ -71,7 +71,7 @@ export const Layout: React.FC<Props> = ({
 
       <div className="flex justify-between pt-4 font-medium text-gray-500 dark:text-gray-400">
         <button
-          onClick={() => router.push('/')}
+          onClick={() => router.push('/posts')}
           className="flex cursor-pointer items-center gap-1 hover:text-black dark:hover:text-gray-100"
           type="button"
         >
@@ -80,7 +80,7 @@ export const Layout: React.FC<Props> = ({
         <a
           href={getTwitterShareUrl({
             text: post?.title ?? BLOG.title,
-            url: `${BLOG.link}/posts/${slug}`,
+            url: `${BLOG.link}/${post.type?.[0] === 'Page' ? '' : 'posts/'}${post.slug ?? slug}`,
             via: BLOG.author,
           })}
           target="_blank"

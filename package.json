@@ -6,52 +6,65 @@
     "dev": "next dev -p 8888",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint . --fix",
+    "lint": "eslint . --max-warnings=0",
     "prepare": "husky",
-    "lint-staged": "eslint . --ext ts,tsx --report-unused-disable-directives --quiet"
+    "lint:fix": "eslint . --fix",
+    "typecheck": "tsc --noEmit",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "tsx --test tests/*.test.ts",
+    "test:e2e": "playwright test",
+    "check": "pnpm lint && pnpm typecheck && pnpm test && pnpm format:check"
   },
   "dependencies": {
-    "@radix-ui/react-hover-card": "^1.1.1",
-    "@vercel/analytics": "^1.5.0",
+    "@radix-ui/react-hover-card": "^1.2.1",
+    "@vercel/analytics": "^2.0.1",
     "classnames": "^2.5.1",
-    "feed": "^5.1.0",
-    "framer-motion": "^12.23.6",
-    "lucide-react": "^0.525.0",
-    "next": "15.4.10",
-    "next-seo": "^6.8.0",
-    "notion-client": "7.4.2",
-    "notion-types": "7.4.2",
-    "notion-utils": "7.4.2",
-    "react": "19.1.0",
-    "react-dom": "19.1.0",
-    "react-notion-x": "7.4.2",
+    "feed": "^6.0.0",
+    "framer-motion": "^14.14.0",
+    "katex": "^0.19.1",
+    "lucide-react": "^1.74.0",
+    "next": "16.4.6",
+    "next-seo": "^7.3.0",
+    "next-themes": "^0.4.6",
+    "notion-client": "8.0.8",
+    "notion-types": "8.0.8",
+    "notion-utils": "8.0.8",
+    "prismjs": "^1.30.0",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "react-notion-x": "8.0.8",
     "react-tweet-embed": "^2.0.0"
   },
   "devDependencies": {
-    "@eslint/eslintrc": "^3.3.1",
-    "@eslint/js": "^9.31.0",
-    "@next/eslint-plugin-next": "^15.4.1",
-    "@tailwindcss/postcss": "^4.1.11",
-    "@trivago/prettier-plugin-sort-imports": "^5.2.2",
-    "@types/node": "^20.14.9",
-    "@types/react": "19.1.8",
-    "@types/react-dom": "19.1.6",
-    "@typescript-eslint/eslint-plugin": "^8.37.0",
-    "eslint": "^9.31.0",
-    "eslint-config-next": "15.4.1",
-    "eslint-plugin-prettier": "^5.5.1",
+    "@playwright/test": "^1.65.1",
+    "@tailwindcss/postcss": "^4.3.5",
+    "@trivago/prettier-plugin-sort-imports": "^6.0.2",
+    "@types/node": "^26.6.6",
+    "@types/prismjs": "^1.26.6",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "eslint": "^10.15.0",
+    "eslint-config-next": "16.4.6",
     "husky": "^9.1.7",
-    "lint-staged": "^16.1.2",
-    "postcss": "^8.5.6",
-    "prettier": "^3.6.2",
-    "prettier-plugin-tailwindcss": "^0.6.14",
-    "tailwindcss": "^4.1.11",
-    "typescript": "^5.5.2"
+    "lint-staged": "^17.6.1",
+    "postcss": "^8.5.33",
+    "prettier": "^3.10.1",
+    "prettier-plugin-tailwindcss": "^0.8.1",
+    "tailwindcss": "^4.3.5",
+    "tsx": "^4.23.15",
+    "typescript": "npm:@typescript/typescript6@^6.0.2",
+    "typescript-native": "npm:typescript@^7.0.2"
   },
-  "pnpm": {
-    "overrides": {
-      "@types/react": "19.1.8",
-      "@types/react-dom": "19.1.6"
-    }
+  "engines": {
+    "node": "26.x"
+  },
+  "packageManager": "pnpm@12.21.0",
+  "lint-staged": {
+    "*.{ts,tsx,js,mjs}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{css,json,md,yml,yaml}": "prettier --write"
   }
 }

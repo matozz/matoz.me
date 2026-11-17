@@ -43,7 +43,5 @@ export type BlogConfig = {
     keywords: string[];
     googleSiteVerification: string;
   };
-  notionPageId: string;
-  notionAccessToken: string;
   isProd: boolean;
 };

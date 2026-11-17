@@ -17,28 +17,32 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
   return {
     paths: publishPosts.map((row) => `/${row.slug}`),
-    fallback: true,
+    fallback: 'blocking',
   };
 };
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const slug = context.params?.slug;
-  const posts = await getAllPosts({ filterPostTypeBy: 'page' });
-  const post = posts.find((t) => t.slug === slug);
+  const posts = await getAllPosts();
+  const post = posts.find((t) => t.slug === slug && t.type?.[0] === 'Page');
 
-  if (!post?.id)
+  if (!post?.id) {
+    if (!posts.some((post) => post.slug === slug && post.type?.[0] === 'Post')) {
+      return { notFound: true, revalidate: 60 };
+    }
     return {
       redirect: {
         destination: `/posts/${slug}`,
         permanent: true,
       },
     };
+  }
 
   const blockMap = await getPostBlocks(post.id);
 
   return {
     props: { post, blockMap },
-    revalidate: 1,
+    revalidate: 60,
   };
 };
 

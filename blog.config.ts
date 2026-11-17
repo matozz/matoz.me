@@ -21,8 +21,6 @@ const BLOG: BlogConfig = {
     keywords: ['matoz', 'develop', 'frontend', 'tech'],
     googleSiteVerification: '', // Remove the value or replace it with your own google site verification code
   },
-  notionPageId: process.env.NOTION_PAGE_ID as string, // DO NOT CHANGE THIS！！！
-  notionAccessToken: process.env.NOTION_ACCESS_TOKEN as string, // Useful if you prefer not to make your database public
   isProd: process.env.VERCEL_ENV === 'production', // distinguish between development and production environment (ref: https://vercel.com/docs/environment-variables#system-environment-variables)
 };
 

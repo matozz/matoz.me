@@ -1,29 +1,24 @@
-import path from 'path';
-import { fileURLToPath } from 'url';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-/**
- * @type {import('next').NextConfig}
- **/
+/** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  transpilePackages: ['react-notion-x'],
+  allowedDevOrigins: ['127.0.0.1'],
   images: {
-    remotePatterns: [{ hostname: 'avatars.githubusercontent.com' }, { hostname: 'www.notion.so' }],
+    remotePatterns: [{ protocol: 'https', hostname: 'avatars.githubusercontent.com' }],
+    qualities: [50, 75],
   },
   async headers() {
     return [
       {
-        source: '/:path*{/}?',
-        headers: [{ key: 'Permissions-Policy', value: 'interest-cohort=()' }],
+        source: '/:path*',
+        headers: [
+          ...(process.env.NODE_ENV === 'production'
+            ? [{ key: 'X-Content-Type-Options', value: 'nosniff' }]
+            : []),
+          { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
+        ],
       },
     ];
-  },
-  webpack: (config) => {
-    config.resolve.alias['@'] = path.join(__dirname, '.');
-    config.externals = [...config.externals, 'canvas', 'jsdom'];
-    return config;
   },
 };
 

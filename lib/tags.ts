@@ -1,4 +1,4 @@
-import { ValueOf } from 'lib/types';
+import { ValueOf } from '@/lib/types';
 
 // NOTE: you can customize tags to match the tags in your Notion database
 const TAG_SLUGS = {

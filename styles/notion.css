@@ -1,5 +1,4 @@
-@import 'tailwindcss';
-@config '../tailwind.config.ts';
+@reference './globals.css';
 
 /* NOTION CSS OVERRIDE */
 
@@ -112,10 +111,6 @@ svg + .notion-page-title-text {
 a.notion-link {
   @apply opacity-80;
   @apply border-b-[1.5px] border-blue-500 text-blue-500 dark:border-blue-400 dark:text-blue-400;
-}
-
-a.notion-page-link {
-  @apply pointer-events-none;
 }
 
 .notion-list li {

@@ -1,7 +1,7 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import classNames from 'classnames';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 
 interface FlipWordsProps {
   words: string[];
@@ -12,23 +12,18 @@ interface FlipWordsProps {
 const FlipWords = (props: FlipWordsProps) => {
   const { words, duration = 3000, className } = props;
 
-  const [currentWord, setCurrentWord] = useState(words[0]);
-  const [isAnimating, setIsAnimating] = useState<boolean>(false);
-
-  const startAnimation = useCallback(() => {
-    const word = words[words.indexOf(currentWord) + 1] || words[0];
-    setCurrentWord(word);
-    setIsAnimating(true);
-  }, [currentWord, words]);
+  const [wordIndex, setWordIndex] = useState(0);
+  const reduceMotion = useReducedMotion();
+  const currentWord = words[wordIndex % words.length] ?? '';
 
   useEffect(() => {
-    if (!isAnimating) {
-      setTimeout(() => startAnimation(), duration);
-    }
-  }, [isAnimating, duration, startAnimation]);
+    if (reduceMotion || words.length < 2) return;
+    const timer = window.setInterval(() => setWordIndex((index) => index + 1), duration);
+    return () => window.clearInterval(timer);
+  }, [duration, reduceMotion, words.length]);
 
   return (
-    <AnimatePresence onExitComplete={() => setIsAnimating(false)}>
+    <AnimatePresence mode="wait">
       <motion.div
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}

@@ -2,14 +2,14 @@ import { useMemo, useState } from 'react';
 
 import { BlogPost } from '@/components';
 import { Tags } from '@/components/Tag';
-import { TagSlug, getTagDataBySlug, isTagSlug } from '@/lib';
+import { getTagDataBySlug, isTagSlug } from '@/lib';
 import { useLocale } from '@/lib/i18n';
 import { Post, TagObj } from '@/types';
 
 type Props = {
   posts: Post[];
   tags: TagObj;
-  currentTag?: TagSlug;
+  currentTag?: string;
 };
 
 export const SearchLayout: React.FC<Props> = ({ tags, posts, currentTag }) => {
@@ -20,7 +20,7 @@ export const SearchLayout: React.FC<Props> = ({ tags, posts, currentTag }) => {
     if (posts) {
       return posts.filter((post) => {
         const tagContent = post.tags ? post.tags.join(' ') : '';
-        const searchContent = post?.title ?? `${post?.summary}` ?? `${tagContent}`;
+        const searchContent = [post.title, post.summary, tagContent].filter(Boolean).join(' ');
         return searchContent.toLowerCase().includes(searchValue.toLowerCase());
       });
     }
@@ -41,6 +41,7 @@ export const SearchLayout: React.FC<Props> = ({ tags, posts, currentTag }) => {
       <div className="relative my-2">
         <input
           type="text"
+          aria-label={locale.POST.SEARCH}
           placeholder={
             currentTag ? `${locale.POST.SEARCHIN} #${currentTagName}` : locale.POST.SEARCH
           }
@@ -48,7 +49,7 @@ export const SearchLayout: React.FC<Props> = ({ tags, posts, currentTag }) => {
           onChange={(e) => setSearchValue(e.target.value)}
         />
       </div>
-      <div className="sticky top-16 z-10 bg-day dark:bg-night">
+      <div className="bg-day dark:bg-night sticky top-16 z-10">
         <Tags tags={tags} currentTag={currentTag} />
       </div>
       <div className="article-container my-5">

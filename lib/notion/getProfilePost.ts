@@ -1,6 +1,8 @@
 import BLOG from '@/blog.config';
 import { Post } from '@/types';
 
+import { getPostBlocks } from './getPostBlocks';
+
 export const getProfilePost = async (allPosts: Post[]) => {
   const post = allPosts.find((t) => t.slug === BLOG.profileSlug);
 
@@ -10,5 +12,6 @@ export const getProfilePost = async (allPosts: Post[]) => {
 
   return {
     post,
+    blockMap: await getPostBlocks(post.id),
   };
 };

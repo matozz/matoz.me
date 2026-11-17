@@ -1,27 +1,29 @@
-import { idToUuid } from 'notion-utils';
-
-import { ReturnGetAllPostsParams } from './getAllPosts';
+import type { ExtendedRecordMap } from 'notion-types';
+import { parsePageId } from 'notion-utils';
 
 export const getAllPageIds = (
-  collectionQuery: ReturnGetAllPostsParams['collectionQuery'],
+  collectionQuery: ExtendedRecordMap['collection_query'],
   viewId?: string,
+  collectionId?: string,
 ): string[] => {
-  const views = Object.values(collectionQuery)?.[0];
+  const collections = collectionId
+    ? [collectionQuery?.[parsePageId(collectionId) ?? collectionId] ?? {}]
+    : Object.values(collectionQuery ?? {});
+  const ids = new Set<string>();
 
-  let pageIds = [];
-
-  if (viewId) {
-    const vId = idToUuid(viewId);
-    pageIds = views[vId]?.blockIds;
-  } else {
-    const pageSet = new Set<string>();
-    for (const view of Object.values(views)) {
-      for (const id of view?.collection_group_results?.blockIds ?? []) {
-        pageSet.add(id);
-      }
+  for (const views of collections) {
+    const results = viewId ? [views[parsePageId(viewId) ?? viewId]] : Object.values(views);
+    for (const result of results) {
+      if (!result) continue;
+      const groups = result.groupResults?.flatMap((group) => group.blockIds ?? []) ?? [];
+      const pageIds = [
+        ...(result.blockIds ?? []),
+        ...(result.collection_group_results?.blockIds ?? []),
+        ...(result.reducerResults?.collection_group_results?.blockIds ?? []),
+        ...groups,
+      ];
+      for (const id of pageIds) ids.add(id);
     }
-    pageIds = Array.from(pageSet);
   }
-
-  return pageIds;
+  return [...ids];
 };

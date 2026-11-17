@@ -1,40 +1,35 @@
 import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
 
-import { useRouter } from 'next/router';
-
-import { Container, Profile } from '@/components';
+import { Container } from '@/components';
 import { SearchLayout } from '@/layouts';
-import { getTagDataBySlug, isTagSlug, TagSlug } from '@/lib';
+import { getTagDataBySlug, isTagSlug } from '@/lib';
 import { filterPublishedPosts, getAllPosts, getAllTags } from '@/lib/notion';
-import { getProfilePost } from '@/lib/notion/getProfilePost';
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const currentTag = typeof params?.tag === 'string' ? params.tag : '';
 
-  if (!isTagSlug(currentTag)) {
+  if (!currentTag) {
     return {
       notFound: true,
     };
   }
 
   const allPosts = await getAllPosts();
-  const profilePostData = await getProfilePost(allPosts);
 
   const posts = filterPublishedPosts({
     posts: allPosts,
     filterPostTypeBy: 'post',
   });
   const tags = getAllTags({ posts });
+  if (!Object.hasOwn(tags, currentTag)) return { notFound: true, revalidate: 60 };
   const filteredPosts = posts.filter((post) => post?.tags?.includes(currentTag));
   return {
     props: {
       tags,
       posts: filteredPosts,
       currentTag,
-      post: profilePostData.post,
-      blockMap: profilePostData.blockMap,
     },
-    revalidate: 1,
+    revalidate: 60,
   };
 };
 
@@ -43,27 +38,20 @@ export const getStaticPaths: GetStaticPaths = async () => {
   const tags = getAllTags({ posts });
   return {
     paths: Object.keys(tags).map((tag) => ({ params: { tag } })),
-    fallback: true,
+    fallback: 'blocking',
   };
 };
 
-type Props = React.ComponentProps<typeof SearchLayout> &
-  Omit<React.ComponentProps<typeof Profile>, 'fullWidth'>;
+type Props = React.ComponentProps<typeof SearchLayout>;
 
-const TagPage: NextPage<Props> = ({ tags, posts, currentTag, post, blockMap }) => {
-  const router = useRouter();
-  const tag = router.query?.tag;
-
-  return (
-    <Container
-      title={getTagDataBySlug(currentTag as TagSlug)?.name ?? currentTag}
-      isTagPage
-      slug={typeof tag === 'string' ? tag : undefined}
-    >
-      {post && blockMap && <Profile blockMap={blockMap} post={post} />}
-      <SearchLayout tags={tags} posts={posts} currentTag={currentTag} />
-    </Container>
-  );
-};
+const TagPage: NextPage<Props> = ({ tags, posts, currentTag }) => (
+  <Container
+    title={currentTag && isTagSlug(currentTag) ? getTagDataBySlug(currentTag).name : currentTag}
+    isTagPage
+    slug={currentTag}
+  >
+    <SearchLayout tags={tags} posts={posts} currentTag={currentTag} />
+  </Container>
+);
 
 export default TagPage;

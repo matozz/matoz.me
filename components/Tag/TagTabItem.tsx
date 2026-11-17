@@ -15,14 +15,12 @@ export const TagTabItem: React.FC<Props> = ({ tagKey, selected, ...rest }) => {
 
   const linkUrl = useMemo(() => {
     if (selected || !('count' in rest)) {
-      return '/';
+      return '/posts';
     }
-    return `/tags/${encodeURIComponent(tagSlug || '')}`;
-  }, [rest, selected, tagSlug]);
+    return `/tags/${encodeURIComponent(tagKey)}`;
+  }, [rest, selected, tagKey]);
 
-  if (!tagSlug) return null;
-
-  const tagData = getTagDataBySlug(tagSlug);
+  const tagData = tagSlug ? getTagDataBySlug(tagSlug) : undefined;
 
   return (
     <li
