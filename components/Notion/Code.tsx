@@ -73,7 +73,7 @@ export const Code = ({ block }: { block: CodeBlock }) => {
           <TooltipTrigger asChild>
             <Button
               variant="ghost"
-              size="sm"
+              size="xs"
               aria-label={copied ? 'Code copied' : 'Copy code'}
               onClick={copy}
             >

@@ -6,7 +6,14 @@ const articlePath = '/posts/auto-text-color';
 for (const theme of ['light', 'dark']) {
   test(`blog, tags and articles remain accessible in ${theme} mode`, async ({ page }) => {
     await page.addInitScript((value) => localStorage.setItem('theme', value), theme);
-    for (const path of ['/posts', '/tags/CSS', articlePath, '/about', '/missing-page-9723']) {
+    for (const path of [
+      '/posts',
+      '/tags/CSS',
+      articlePath,
+      '/posts/react-devtools',
+      '/about',
+      '/missing-page-9723',
+    ]) {
       await page.goto(path);
       await expect(page.locator('html')).toHaveClass(new RegExp(theme));
       await expect(page.locator('main')).toHaveCount(1);
@@ -104,4 +111,56 @@ test('skip link reaches content and ambient effects stay on the homepage', async
   await page.goto('/');
   await expect(page.locator('.magnet-bg')).toHaveCount(1);
   await expect(page.getByRole('heading', { name: /Matoz.*Bytedance/ })).toBeVisible();
+});
+
+test('article headings occupy separate lines and consecutive lists read compactly', async ({
+  page,
+}) => {
+  await page.goto(articlePath);
+  const headings = await page.locator('.notion-h').evaluateAll((elements) =>
+    elements.slice(0, 2).map((element) => {
+      const { top, bottom } = element.getBoundingClientRect();
+      return { top, bottom };
+    }),
+  );
+  expect(headings).toHaveLength(2);
+  expect(headings[1].top).toBeGreaterThanOrEqual(headings[0].bottom);
+
+  const listRows = await page
+    .locator('.notion-list li')
+    .evaluateAll((elements) =>
+      elements.slice(0, 3).map((element) => element.getBoundingClientRect().top),
+    );
+  expect(listRows).toHaveLength(3);
+  for (let index = 1; index < listRows.length; index++) {
+    expect(listRows[index] - listRows[index - 1]).toBeLessThanOrEqual(36);
+  }
+});
+
+test('unavailable article images retain their source and successful images render normally', async ({
+  page,
+}) => {
+  const source = 'https://img.soft10.net/20220929/25dd41fdbe830a289f745de2ce9cc363.png';
+  await page.route('https://img.soft10.net/**', (route) => route.abort());
+  await page.goto('/posts/react-devtools');
+  const fallback = page.locator('.notion-image-fallback').first();
+  await expect(fallback).toContainText('Image unavailable');
+  await expect(fallback.getByRole('link', { name: 'Open original' })).toHaveAttribute(
+    'href',
+    source,
+  );
+  await expect(page.locator(`img[src="${source}"]`)).toHaveCount(0);
+
+  await page.route(source, (route) =>
+    route.fulfill({
+      contentType: 'image/svg+xml',
+      body: '<svg xmlns="http://www.w3.org/2000/svg" width="400" height="200"><rect width="400" height="200" fill="#64748b"/></svg>',
+    }),
+  );
+  await page.reload();
+  const image = page.locator(`img[src="${source}"]`);
+  await expect(image).toBeVisible();
+  await expect
+    .poll(() => image.evaluate((element) => (element as HTMLImageElement).naturalWidth))
+    .toBe(400);
 });
