@@ -3,7 +3,7 @@ import { NextPage } from 'next';
 import Link from 'next/link';
 
 import BLOG from '@/blog.config';
-import { Container } from '@/components';
+import { Container } from '@/components/Container';
 import FlipWords from '@/components/FlipWords';
 import LinkPreview from '@/components/LinkPreview';
 import { YoutubeIcon, XIcon, GithubIcon, GumroadIcon, BilibiliIcon } from '@/lib/icon';

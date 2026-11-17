@@ -1,26 +1,27 @@
-import classNames from 'classnames';
+/* eslint-disable @next/next/no-html-link-for-pages -- RSS returns XML and requires document navigation. */
+import { cn } from 'cn';
 
 import BLOG from '@/blog.config';
+import { Separator } from '@/components/ui/separator';
 
-type Props = { fullWidth?: boolean };
+type Props = { fullWidth?: boolean; compact?: boolean };
 
-export const Footer: React.FC<Props> = ({ fullWidth }) => {
-  return (
-    <div
-      className={classNames(
-        'm-auto mt-6 w-full shrink-0 text-gray-500 transition-all dark:text-gray-400',
-        {
-          'px-4 md:px-24': fullWidth,
-          'max-w-2xl px-6': !fullWidth,
-        },
-      )}
-    >
-      <hr className="border-neutral-200 dark:border-gray-700" />
-      <div className="my-4 text-sm leading-6">
-        <div className="flex flex-wrap justify-between align-baseline">
-          <p>{`${BLOG.since ? `${BLOG.since}-PRESENT ` : ''}© ${BLOG.author}`}</p>
-        </div>
-      </div>
+export const Footer = ({ fullWidth, compact }: Props) => (
+  <footer
+    className={cn(
+      'site-width site-footer',
+      compact && 'site-width-home',
+      fullWidth && 'site-width-wide',
+    )}
+  >
+    <Separator />
+    <div className="text-muted-foreground flex items-center justify-between gap-4 py-6 text-xs">
+      <p>
+        © {new Date().getFullYear()} {BLOG.author}
+      </p>
+      <a href="/feed" className="footer-link">
+        RSS feed
+      </a>
     </div>
-  );
-};
+  </footer>
+);

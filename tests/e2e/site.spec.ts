@@ -41,7 +41,7 @@ test('renders real Notion articles, code and About without hydration errors', as
   await expect(page.locator('.notion')).toBeVisible();
   await expect(page.locator('.notion')).not.toBeEmpty();
   await page.goto('/about');
-  await expect(page.locator('article h1')).toBeVisible();
+  await expect(page.locator('main h1')).toBeVisible();
   await expect(page.locator('.notion')).not.toBeEmpty();
   expect(errors).toEqual([]);
 });

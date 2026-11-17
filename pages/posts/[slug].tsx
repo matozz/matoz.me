@@ -3,7 +3,7 @@ import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
 import DefaultErrorPage from 'next/error';
 import { useRouter } from 'next/router';
 
-import { Layout } from '@/layouts';
+import { Layout } from '@/layouts/layout';
 import { getAllPosts, getPostBlocks } from '@/lib/notion';
 
 export const getStaticPaths: GetStaticPaths = async () => {

@@ -1,16 +1,17 @@
-import { ArrowLeft } from 'lucide-react';
-import { ExtendedRecordMap } from 'notion-types';
+import { ArrowLeft, ArrowUpRight } from 'lucide-react';
+import type { ExtendedRecordMap } from 'notion-types';
 
-import { useRouter } from 'next/router';
+import Link from 'next/link';
 
 import BLOG from '@/blog.config';
-import { Container } from '@/components';
+import { Container } from '@/components/Container';
 import { NotionRenderer } from '@/components/Notion';
 import { TagItem } from '@/components/Tag';
+import { Button } from '@/components/ui/button';
+import { Separator } from '@/components/ui/separator';
 import formatDate from '@/lib/formatDate';
 import { getTwitterShareUrl } from '@/lib/getTwitterShareUrl';
-import { useLocale } from '@/lib/i18n';
-import { Post } from '@/types';
+import type { Post } from '@/types';
 
 type Props = {
   blockMap: ExtendedRecordMap;
@@ -20,77 +21,86 @@ type Props = {
   slug?: string | null;
 };
 
-export const Layout: React.FC<Props> = ({
+export const Layout = ({
   blockMap,
   post,
   slug,
   fullWidth = false,
   onlyContents = false,
-}) => {
-  const locale = useLocale();
-  const router = useRouter();
-
-  const renderContents = () => (
-    <article className="mt-4 mb-8 md:mt-0">
-      <h1 className="text-2xl font-bold text-black md:text-3xl dark:text-white">{post.title}</h1>
-      {post?.type?.[0] !== 'Page' && (
-        <nav className="my-4 flex items-center text-gray-500 dark:text-gray-300">
-          <div className="flex">
-            <p className="md:block">{BLOG.author}</p>
-            <span className="block">&nbsp;/&nbsp;</span>
-            <div className="mr-2 md:ml-0">
-              {formatDate(post?.date?.start_date || post.createdTime, BLOG.lang)}
-            </div>
-          </div>
-          {post.tags && (
-            <div className="article-tags mt-2 mb-1 flex max-w-full flex-nowrap overflow-x-auto">
-              {post.tags.map((tag) => (
-                <TagItem key={tag} tag={tag} />
-              ))}
-            </div>
-          )}
-        </nav>
+}: Props) => {
+  const isPost = post.type?.[0] === 'Post';
+  const date = post.date?.start_date || post.createdTime;
+  const heading = (
+    <header className="post-header">
+      {isPost && (
+        <Link href="/posts" className="article-back">
+          <ArrowLeft size={14} aria-hidden="true" /> All articles
+        </Link>
       )}
-      {blockMap && <NotionRenderer recordMap={blockMap} />}
-    </article>
+      <h1 className="post-title">{post.title}</h1>
+      {isPost && (
+        <div className="post-meta">
+          <span>{BLOG.author}</span>
+          <span aria-hidden="true">·</span>
+          <time dateTime={date}>{formatDate(date, BLOG.lang)}</time>
+          {!!post.tags?.length && (
+            <ul className="article-tags flex flex-wrap gap-2" aria-label="Article topics">
+              {post.tags.map((tag) => (
+                <li key={tag}>
+                  <TagItem tag={tag} />
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      )}
+    </header>
   );
-
+  const footer = (
+    <footer className="article-footer">
+      <Separator />
+      <div className="flex flex-wrap items-center justify-between gap-3 py-5">
+        <Button asChild variant="ghost" size="sm">
+          <Link href="/posts">
+            <ArrowLeft data-icon="inline-start" /> All articles
+          </Link>
+        </Button>
+        <Button asChild variant="ghost" size="sm">
+          <a
+            href={getTwitterShareUrl({
+              text: post.title ?? BLOG.title,
+              url: `${BLOG.link}/${isPost ? 'posts/' : ''}${post.slug ?? slug}`,
+              via: BLOG.author,
+            })}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Share on X <ArrowUpRight data-icon="inline-end" />
+          </a>
+        </Button>
+      </div>
+    </footer>
+  );
+  const content = (
+    <NotionRenderer
+      recordMap={blockMap}
+      pageHeader={heading}
+      pageFooter={onlyContents ? undefined : footer}
+    />
+  );
   return onlyContents ? (
-    renderContents()
+    content
   ) : (
     <Container
       layout="blog"
       title={post.title}
       description={post.summary}
-      date={new Date(post.date?.start_date || post.createdTime).toISOString()}
+      date={new Date(date).toISOString()}
       type="article"
       fullWidth={fullWidth}
       slug={slug}
     >
-      {renderContents()}
-
-      <div className="flex justify-between pt-4 font-medium text-gray-500 dark:text-gray-400">
-        <button
-          onClick={() => router.push('/posts')}
-          className="flex cursor-pointer items-center gap-1 hover:text-black dark:hover:text-gray-100"
-          type="button"
-        >
-          <ArrowLeft /> {locale?.POST.BACK}
-        </button>
-        <a
-          href={getTwitterShareUrl({
-            text: post?.title ?? BLOG.title,
-            url: `${BLOG.link}/${post.type?.[0] === 'Page' ? '' : 'posts/'}${post.slug ?? slug}`,
-            via: BLOG.author,
-          })}
-          target="_blank"
-          rel="noreferrer noopener"
-          aria-label="share with x"
-          className="ml-auto cursor-pointer text-blue-500 underline opacity-80 hover:opacity-100 dark:border-blue-400 dark:text-blue-400"
-        >
-          {locale?.POST.SHARE}
-        </a>
-      </div>
+      {content}
     </Container>
   );
 };

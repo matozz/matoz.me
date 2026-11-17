@@ -1,8 +1,8 @@
 import { GetStaticProps, NextPage } from 'next';
 
 import BLOG from '@/blog.config';
-import { Container } from '@/components';
-import { SearchLayout } from '@/layouts';
+import { Container } from '@/components/Container';
+import { SearchLayout } from '@/layouts/search';
 import { filterPublishedPosts, getAllPosts, getAllTags } from '@/lib/notion';
 
 export const getStaticProps: GetStaticProps = async () => {
