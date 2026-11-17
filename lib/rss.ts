@@ -23,7 +23,7 @@ export function generateRss(posts: Post[]) {
     feed.addItem({
       title: post?.title ?? '',
       id: `${BLOG.link}/posts/${post.slug}`,
-      link: `${BLOG.link}/posts/${post.slug}`,
+      link: post.link || `${BLOG.link}/posts/${post.slug}`,
       description: post.summary,
       date: new Date(post?.date?.start_date || post.createdTime),
     });

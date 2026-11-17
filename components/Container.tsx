@@ -1,9 +1,8 @@
-import { useEffect, useMemo, useState } from 'react';
-
 import classNames from 'classnames';
-import { NextSeo, NextSeoProps } from 'next-seo';
 
+import { generateNextSeo, type NextSeoProps } from 'next-seo/pages';
 import { Inter } from 'next/font/google';
+import Head from 'next/head';
 import { useRouter } from 'next/router';
 
 import BLOG from '@/blog.config';
@@ -32,88 +31,68 @@ export const Container: React.FC<Props> = ({ children, fullWidth, ...meta }) => 
   const router = useRouter();
   const { theme } = useTheme();
 
-  const [customMetaTags, setCustomMetaTags] = useState<
-    NonNullable<NextSeoProps['additionalMetaTags']>
-  >([]);
-  const [alreadySet, setAlreadySet] = useState<boolean>(false);
-
-  const root = useMemo(() => {
-    return router.pathname === '/';
-  }, [router]);
-
-  const siteTitle = useMemo(() => {
-    return meta.title ?? BLOG.title;
-  }, [meta]);
-
-  useEffect(() => {
-    if (alreadySet || meta.type !== 'article' || !meta) return;
-    setCustomMetaTags((prevCustomMetaTags) =>
-      (prevCustomMetaTags ?? []).concat(
-        {
-          property: 'article:published_time',
-          content: meta?.date || meta?.createdTime || '',
-        },
-        {
-          property: 'article:author',
-          content: BLOG.author,
-        },
-      ),
-    );
-    setAlreadySet(true);
-  }, [alreadySet, meta]);
-
-  const canonical = `${BLOG.link}${router.asPath}`;
+  const root = router.pathname === '/';
+  const siteTitle = meta.title ?? BLOG.title;
+  const canonical = new URL(router.asPath.split(/[?#]/)[0], BLOG.link).href;
+  const customMetaTags: NonNullable<NextSeoProps['additionalMetaTags']> =
+    meta.type === 'article'
+      ? [
+          { property: 'article:published_time', content: meta.date || meta.createdTime || '' },
+          { property: 'article:author', content: BLOG.author },
+        ]
+      : [];
 
   return (
     <div>
-      <NextSeo
-        title={meta.title}
-        description={meta.description}
-        nofollow={true}
-        canonical={canonical}
-        robotsProps={{
-          nosnippet: false,
-          notranslate: false,
-          noimageindex: false,
-          noarchive: false,
-        }}
-        themeColor={theme === 'dark' ? BLOG.darkBackground : BLOG.lightBackground}
-        openGraph={{
-          title: meta.title,
-          url: canonical,
-          type: meta.type ?? 'website',
-          locale: BLOG.lang,
-          description: meta.description,
-          siteName: BLOG.title,
-          images: [
+      <Head>
+        {generateNextSeo({
+          title: siteTitle,
+          description: meta.description ?? BLOG.description,
+          canonical,
+          robotsProps: {
+            nosnippet: false,
+            notranslate: false,
+            noimageindex: false,
+            noarchive: false,
+          },
+          themeColor: theme === 'dark' ? BLOG.darkBackground : BLOG.lightBackground,
+          openGraph: {
+            title: meta.title,
+            url: canonical,
+            type: meta.type ?? 'website',
+            locale: BLOG.lang,
+            description: meta.description,
+            siteName: BLOG.title,
+            images: [
+              {
+                url: getOGImageURL({ title: siteTitle, root, twitter: false }),
+              },
+            ],
+          },
+          additionalMetaTags: customMetaTags.concat(
             {
-              url: getOGImageURL({ title: siteTitle, root, twitter: false }),
+              name: 'google-site-verification',
+              content: BLOG.seo.googleSiteVerification,
             },
-          ],
-        }}
-        additionalMetaTags={customMetaTags.concat(
-          {
-            name: 'google-site-verification',
-            content: BLOG.seo.googleSiteVerification,
+            {
+              name: 'keywords',
+              content: BLOG.seo.keywords.join(', '),
+            },
+            {
+              property: 'twitter:image',
+              content: getOGImageURL({
+                title: siteTitle,
+                root,
+                twitter: true,
+              }),
+            },
+          ),
+          twitter: {
+            cardType: 'summary_large_image',
+            site: '@_matozz',
           },
-          {
-            name: 'keywords',
-            content: BLOG.seo.keywords.join(', '),
-          },
-          {
-            property: 'twitter:image',
-            content: getOGImageURL({
-              title: siteTitle,
-              root,
-              twitter: true,
-            }),
-          },
-        )}
-        twitter={{
-          cardType: 'summary_large_image',
-          site: '@_matozz',
-        }}
-      />
+        })}
+      </Head>
       <div className={classNames('wrapper', 'font-sans', inter.variable)}>
         <Header fullWidth={fullWidth} metaTitle={meta.title} />
         <main

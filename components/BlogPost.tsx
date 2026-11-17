@@ -36,14 +36,18 @@ export const BlogPost: React.FC<Props> = ({ post }) => {
             src={post.thumbnail_url}
             alt={post.title as string}
             decoding="async"
+            width={1200}
+            height={630}
+            sizes="(max-width: 672px) 100vw, 624px"
+            unoptimized
             className="my-3 rounded-md bg-gray-100 drop-shadow-md dark:bg-gray-900"
           />
         )}
-        <main>
+        <div>
           <p className="line-clamp-1 text-base leading-8 text-gray-700 dark:text-gray-300">
             {post.summary}
           </p>
-        </main>
+        </div>
       </article>
     );
   };

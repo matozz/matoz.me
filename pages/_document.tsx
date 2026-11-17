@@ -1,3 +1,5 @@
+import type { CSSProperties } from 'react';
+
 import Document, { Html, Head, Main, NextScript, DocumentContext } from 'next/document';
 
 import BLOG from '@/blog.config';
@@ -10,7 +12,16 @@ class MyDocument extends Document {
 
   render() {
     return (
-      <Html lang={BLOG.lang} className={BLOG.appearance === 'dark' ? 'dark' : undefined}>
+      <Html
+        lang={BLOG.lang}
+        suppressHydrationWarning
+        style={
+          {
+            '--color-day': BLOG.lightBackground,
+            '--color-night': BLOG.darkBackground,
+          } as CSSProperties
+        }
+      >
         <Head>
           <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
           <link rel="icon" type="image/png" sizes="16x16" href="/favicon16.png" />

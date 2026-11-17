@@ -3,10 +3,11 @@ import React, { useEffect, useRef } from 'react';
 const MagnetBackground = () => {
   const bgRef = useRef<HTMLDivElement>(null);
 
-  const isSupport = Boolean(CSS.paintWorklet?.addModule);
-
   useEffect(() => {
-    if (!isSupport) {
+    if (
+      !CSS.paintWorklet?.addModule ||
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    ) {
       return;
     }
 
@@ -23,8 +24,9 @@ const MagnetBackground = () => {
     window.addEventListener('mousemove', onMouseMove);
     window.addEventListener('mouseleave', onMouseLeave);
 
-    CSS?.paintWorklet?.addModule(
-      `data:application/javascript;charset=utf8,${encodeURIComponent(`
+    Promise.resolve(
+      CSS.paintWorklet.addModule(
+        `data:application/javascript;charset=utf8,${encodeURIComponent(`
       class MagnetMatrixPaintWorklet {
         static get inputProperties() { return ['--mouse-x', '--mouse-y', '--magnet-color', '--magnet-size', '--magnet-gap', '--magnet-radius']; }
     
@@ -66,16 +68,17 @@ const MagnetBackground = () => {
     
       registerPaint('magnet-matrix', MagnetMatrixPaintWorklet);
     `)}`,
-    );
+      ),
+    ).catch(() => undefined);
 
     return () => {
       window.removeEventListener('mouseenter', onMouseMove);
       window.removeEventListener('mousemove', onMouseMove);
       window.removeEventListener('mouseleave', onMouseLeave);
     };
-  }, [isSupport]);
+  }, []);
 
-  return isSupport ? <div ref={bgRef} className="magnet-bg"></div> : null;
+  return <div ref={bgRef} className="magnet-bg" aria-hidden="true" />;
 };
 
 export default MagnetBackground;

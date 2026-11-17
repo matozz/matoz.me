@@ -1,7 +1,7 @@
-import Gtag from 'gtag.js';
+export {};
 
 declare global {
   namespace CSS {
-    let paintWorklet: { addModule: (module: string) => void } | undefined;
+    let paintWorklet: { addModule: (module: string) => Promise<void> } | undefined;
   }
 }

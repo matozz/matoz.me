@@ -1,7 +1,9 @@
-import 'react-notion-x/src/styles.css';
+import 'react-notion-x/styles.css';
 
 import { Analytics } from '@vercel/analytics/next';
+import 'katex/dist/katex.min.css';
 import type { AppProps } from 'next/app';
+import 'prismjs/themes/prism.css';
 
 import { LocaleProvider } from '@/lib/i18n';
 import { ThemeProvider } from '@/lib/theme';

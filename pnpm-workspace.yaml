@@ -1,0 +1,30 @@
+allowBuilds:
+  esbuild: true
+  sharp: true
+  '@tailwindcss/oxide': true
+# Exact stable releases selected for the 2026-11-17 dependency upgrade.
+minimumReleaseAgeExclude:
+  - '@typescript-eslint/eslint-plugin@8.73.0'
+  - '@typescript-eslint/parser@8.73.0'
+  - '@typescript-eslint/project-service@8.73.0'
+  - '@typescript-eslint/scope-manager@8.73.0'
+  - '@typescript-eslint/tsconfig-utils@8.73.0'
+  - '@typescript-eslint/type-utils@8.73.0'
+  - '@typescript-eslint/types@8.73.0'
+  - '@typescript-eslint/typescript-estree@8.73.0'
+  - '@typescript-eslint/utils@8.73.0'
+  - '@typescript-eslint/visitor-keys@8.73.0'
+  - 'axe-core@4.14.1'
+  - 'baseline-browser-mapping@2.11.38'
+  - 'browserslist@4.29.6'
+  - 'electron-to-chromium@1.5.487'
+  - 'ignore@7.0.16'
+  - 'lucide-react@1.74.0'
+  - 'minimatch@11.0.9'
+  - 'typescript-eslint@8.73.0'
+  - 'update-browserslist-db@1.4.0'
+peerDependencyRules:
+  allowedVersions:
+    'eslint-plugin-import>eslint': '10'
+    'eslint-plugin-jsx-a11y>eslint': '10'
+    'eslint-plugin-react>eslint': '10'

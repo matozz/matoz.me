@@ -8,9 +8,7 @@
   "printWidth": 100,
   "overrides": [
     {
-      "files": [
-        "**/.eslintrc"
-      ],
+      "files": ["**/.eslintrc"],
       "options": {
         "parser": "json"
       }
@@ -29,8 +27,5 @@
     "module.s?css$",
     "s?css$"
   ],
-  "plugins": [
-    "@trivago/prettier-plugin-sort-imports",
-    "prettier-plugin-tailwindcss"
-  ]
+  "plugins": ["@trivago/prettier-plugin-sort-imports", "prettier-plugin-tailwindcss"]
 }

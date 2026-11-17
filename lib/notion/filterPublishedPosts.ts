@@ -1,16 +1,14 @@
 import { Post } from '@/types';
 
-const current = new Date();
-const tomorrow = new Date(current);
-tomorrow.setDate(tomorrow.getDate() + 1);
-tomorrow.setHours(0, 0, 0, 0);
-
 type Props = {
   posts: Post[] | null;
-  filterPostTypeBy: 'page' | 'post' | undefined;
+  filterPostTypeBy?: 'page' | 'post';
 };
 
 export const filterPublishedPosts = ({ posts, filterPostTypeBy }: Props) => {
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  tomorrow.setHours(0, 0, 0, 0);
   if (!posts || !posts.length) {
     return [];
   }

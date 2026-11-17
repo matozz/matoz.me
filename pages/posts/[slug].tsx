@@ -17,7 +17,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
   return {
     paths: publishPosts.map((row) => `/posts/${row.slug}`),
-    fallback: true,
+    fallback: 'blocking',
   };
 };
 
@@ -27,14 +27,14 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const post = posts.find((t) => t.slug === slug);
 
   if (!post?.id) {
-    return { notFound: true };
+    return { notFound: true, revalidate: 60 };
   }
 
   const blockMap = await getPostBlocks(post.id);
 
   return {
     props: { post, blockMap },
-    revalidate: 1,
+    revalidate: 60,
   };
 };
 

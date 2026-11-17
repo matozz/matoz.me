@@ -9,13 +9,7 @@ type Props = {
 };
 
 export const TagItem: React.FC<Props> = ({ tag }) => {
-  const tagSlug = isTagSlug(tag) ? tag : undefined;
-
-  if (!tagSlug) {
-    return null;
-  }
-
-  const tagData = getTagDataBySlug(tagSlug);
+  const tagData = isTagSlug(tag) ? getTagDataBySlug(tag) : undefined;
 
   return (
     <Link href={`/tags/${encodeURIComponent(tag)}`}>

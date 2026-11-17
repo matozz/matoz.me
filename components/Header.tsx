@@ -91,12 +91,9 @@ export const Header: React.FC<HeaderProps> = ({ fullWidth, metaTitle }) => {
   }, []);
 
   useEffect(() => {
-    const obvserver = new window.IntersectionObserver(handler);
-    if (sentinalRef?.current) obvserver.observe(sentinalRef.current);
-    // Don't touch this, I have no idea how it works XD
-    return () => {
-      if (sentinalRef?.current) obvserver.unobserve(sentinalRef.current);
-    };
+    const observer = new window.IntersectionObserver(handler);
+    if (sentinalRef.current) observer.observe(sentinalRef.current);
+    return () => observer.disconnect();
   }, [handler]);
 
   return (
@@ -104,7 +101,7 @@ export const Header: React.FC<HeaderProps> = ({ fullWidth, metaTitle }) => {
       <div className="h-2 md:h-12" ref={sentinalRef} />
       <div
         className={classNames(
-          'sticky-nav bg-opacity-60 m-auto mb-2 flex h-6 w-full flex-row items-center justify-between py-8 md:mb-12',
+          'sticky-nav bg-day/60 dark:bg-night/60 m-auto mb-2 flex h-6 w-full flex-row items-center justify-between py-8 md:mb-12',
           {
             'px-4 md:px-24': fullWidth,
             'max-w-3xl px-6': !fullWidth,

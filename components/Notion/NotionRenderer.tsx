@@ -16,7 +16,7 @@ export const NotionRenderer = (props: Props) => {
     <Renderer
       components={NotionComponents}
       mapPageUrl={mapPageUrl}
-      darkMode={theme !== 'light'}
+      darkMode={theme === 'dark'}
       {...props}
     />
   );

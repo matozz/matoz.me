@@ -1,9 +1,9 @@
 import { GetStaticProps, NextPage } from 'next';
 
 import BLOG from '@/blog.config';
-import { BlogPost, Container } from '@/components';
+import { Container } from '@/components';
 import { SearchLayout } from '@/layouts';
-import { filterPublishedPosts, getAllPosts } from '@/lib/notion';
+import { filterPublishedPosts, getAllPosts, getAllTags } from '@/lib/notion';
 
 export const getStaticProps: GetStaticProps = async () => {
   const allPosts = await getAllPosts();
@@ -15,19 +15,18 @@ export const getStaticProps: GetStaticProps = async () => {
   return {
     props: {
       posts,
+      tags: getAllTags({ posts }),
     },
-    revalidate: 1,
+    revalidate: 60,
   };
 };
 
 type Props = Omit<React.ComponentProps<typeof SearchLayout>, 'currentTag'>;
 
-const Blog: NextPage<Props> = ({ posts }) => {
+const Blog: NextPage<Props> = ({ posts, tags }) => {
   return (
     <Container title={`Blog - ${BLOG.title}`}>
-      {posts.map((post) => (
-        <BlogPost key={post.id} post={post} />
-      ))}
+      <SearchLayout posts={posts} tags={tags} />
     </Container>
   );
 };
