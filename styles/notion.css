@@ -27,6 +27,11 @@
 .notion-full-width {
   padding: 0;
 }
+/* Page chrome owns its spacing, rather than inheriting Notion's block padding. */
+.notion .post-header,
+.notion .article-footer {
+  padding: 0;
+}
 .notion-viewport,
 .notion-collection-page-properties,
 .notion-collection-row {
@@ -181,6 +186,7 @@
   width: 100%;
   min-width: 0;
   margin: 1rem 0;
+  padding: 0;
   overflow: hidden;
   border: 1px solid var(--border);
   border-radius: 0.5rem;
@@ -188,13 +194,14 @@
 }
 .code-toolbar {
   display: flex;
-  min-height: 2rem;
+  height: 2rem;
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
   border-bottom: 1px solid var(--border);
-  padding: 0.25rem 0.5rem 0.25rem 1rem;
+  padding: 0 0.5rem 0 1rem;
   color: var(--muted-foreground);
+  line-height: 1;
 }
 .code-language {
   font-family: ui-monospace, SFMono-Regular, monospace;
@@ -330,6 +337,7 @@
 .notion .notion-asset-wrapper {
   max-width: 100%;
   margin: 1rem 0;
+  padding: 0;
 }
 .notion .notion-asset-wrapper-image img {
   border-radius: 0.5rem;

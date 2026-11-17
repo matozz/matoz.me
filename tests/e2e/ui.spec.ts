@@ -101,6 +101,89 @@ test('code copy is keyboard accessible and copies the displayed content', async 
   await expect(figure.locator('.token').first()).toBeVisible();
 });
 
+test('shared controls and code toolbars stay vertically centered in both themes', async ({
+  page,
+  context,
+}) => {
+  await context.grantPermissions(['clipboard-read', 'clipboard-write']);
+  const checkAlignment = async () => {
+    const offsets = await page.evaluate(() => {
+      const result: { control: string; offset: number }[] = [];
+      const center = (element: Element) => {
+        const rect = element.getBoundingClientRect();
+        return rect.top + rect.height / 2;
+      };
+      const compare = (control: string, element: Element, target: number) =>
+        result.push({ control, offset: Math.abs(center(element) - target) });
+      const nav = document.querySelector('.site-nav nav')!;
+      nav
+        .querySelectorAll('a, button')
+        .forEach((element) =>
+          compare(
+            `Navigation: ${element.textContent || element.getAttribute('aria-label')}`,
+            element,
+            center(nav),
+          ),
+        );
+      document.querySelectorAll('[data-slot="input-group"]').forEach((group) => {
+        group
+          .querySelectorAll('input, svg')
+          .forEach((element) => compare(`Search: ${element.tagName}`, element, center(group)));
+      });
+      document
+        .querySelectorAll('[data-slot="badge"] > span')
+        .forEach((count) => compare('Topic count', count, center(count.parentElement!)));
+      document.querySelectorAll('.code-toolbar').forEach((toolbar, index) => {
+        const panel = toolbar.parentElement!;
+        const panelTop =
+          panel.getBoundingClientRect().top + parseFloat(getComputedStyle(panel).borderTopWidth);
+        const toolbarBottom =
+          toolbar.getBoundingClientRect().bottom -
+          parseFloat(getComputedStyle(toolbar).borderBottomWidth);
+        const bandCenter = (panelTop + toolbarBottom) / 2;
+        [toolbar.querySelector('.code-language')!, toolbar.querySelector('button')!].forEach(
+          (element) => compare(`Code toolbar ${index}: ${element.tagName}`, element, bandCenter),
+        );
+        const button = toolbar.querySelector('button')!;
+        compare(`Copy label ${index}`, button.querySelector('span')!, center(button));
+      });
+      document
+        .querySelectorAll('.site-nav button, .code-toolbar button, .article-footer a')
+        .forEach((button) => {
+          const icon = button.querySelector('svg');
+          if (icon)
+            compare(
+              `Button icon: ${button.textContent || button.getAttribute('aria-label')}`,
+              icon,
+              center(button),
+            );
+        });
+      return result;
+    });
+    expect(offsets.length).toBeGreaterThan(0);
+    expect(offsets.filter(({ offset }) => offset > 0.75)).toEqual([]);
+  };
+
+  for (const theme of ['light', 'dark']) {
+    await page.goto('/posts');
+    if (
+      !(await page
+        .locator('html')
+        .evaluate((element, value) => element.classList.contains(value), theme))
+    ) {
+      await page.getByRole('button', { name: 'Toggle Dark Mode' }).click();
+    }
+    await expect(page.locator('html')).toHaveClass(new RegExp(theme));
+    await page.getByRole('textbox', { name: 'Search articles' }).fill('CSS');
+    await checkAlignment();
+    await page.goto(articlePath);
+    await checkAlignment();
+    await page.getByRole('button', { name: 'Copy code', exact: true }).first().click();
+    await expect(page.getByRole('button', { name: 'Code copied', exact: true })).toBeVisible();
+    await checkAlignment();
+  }
+});
+
 test('skip link reaches content and ambient effects stay on the homepage', async ({ page }) => {
   await page.goto('/posts');
   await page.keyboard.press('Tab');
