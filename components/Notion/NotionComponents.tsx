@@ -2,6 +2,8 @@ import type { NotionComponents as NotionComponentType } from 'react-notion-x';
 
 import dynamic from 'next/dynamic';
 
+import { NotionImage } from './Image';
+
 const Code = dynamic(() => import('./Code').then((module) => module.Code));
 const Collection = dynamic(() =>
   import('react-notion-x/third-party/collection').then((module) => module.Collection),
@@ -22,6 +24,7 @@ const Tweet = dynamic(() =>
 );
 
 export const NotionComponents: Partial<NotionComponentType> = {
+  Image: NotionImage,
   Code,
   Collection,
   Equation,

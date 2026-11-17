@@ -28,3 +28,7 @@ peerDependencyRules:
     'eslint-plugin-import>eslint': '10'
     'eslint-plugin-jsx-a11y>eslint': '10'
     'eslint-plugin-react>eslint': '10'
+# Keep transitive dependencies outside the affected Dependabot ranges.
+overrides:
+  '@babel/runtime@<7.26.10': 7.29.14
+  'minimatch@>=7.0.0 <11.0.1': 11.0.9

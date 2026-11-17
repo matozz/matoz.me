@@ -1,7 +1,7 @@
 import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
 
-import { Container } from '@/components';
-import { SearchLayout } from '@/layouts';
+import { Container } from '@/components/Container';
+import { SearchLayout } from '@/layouts/search';
 import { getTagDataBySlug, isTagSlug } from '@/lib';
 import { filterPublishedPosts, getAllPosts, getAllTags } from '@/lib/notion';
 

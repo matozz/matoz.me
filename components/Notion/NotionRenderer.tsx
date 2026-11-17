@@ -17,6 +17,7 @@ export const NotionRenderer = (props: Props) => {
       components={NotionComponents}
       mapPageUrl={mapPageUrl}
       darkMode={theme === 'dark'}
+      forceCustomImages
       {...props}
     />
   );

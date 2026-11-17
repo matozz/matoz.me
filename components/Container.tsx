@@ -1,4 +1,4 @@
-import classNames from 'classnames';
+import { cn } from 'cn';
 
 import { generateNextSeo, type NextSeoProps } from 'next-seo/pages';
 import { Inter } from 'next/font/google';
@@ -6,7 +6,8 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 
 import BLOG from '@/blog.config';
-import { Footer, Header } from '@/components';
+import { Footer } from '@/components/Footer';
+import { Header } from '@/components/Header';
 import { getOGImageURL } from '@/lib/getOGImageURL';
 import { useTheme } from '@/lib/theme';
 
@@ -23,6 +24,7 @@ type Props = {
   slug?: string | null;
   createdTime?: string;
   isTagPage?: boolean;
+  noIndex?: boolean;
 };
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
@@ -32,6 +34,7 @@ export const Container: React.FC<Props> = ({ children, fullWidth, ...meta }) => 
   const { theme } = useTheme();
 
   const root = router.pathname === '/';
+  const Main = meta.layout === 'blog' ? 'div' : 'main';
   const siteTitle = meta.title ?? BLOG.title;
   const canonical = new URL(router.asPath.split(/[?#]/)[0], BLOG.link).href;
   const customMetaTags: NonNullable<NextSeoProps['additionalMetaTags']> =
@@ -49,6 +52,7 @@ export const Container: React.FC<Props> = ({ children, fullWidth, ...meta }) => 
           title: siteTitle,
           description: meta.description ?? BLOG.description,
           canonical,
+          noindex: meta.noIndex ?? false,
           robotsProps: {
             nosnippet: false,
             notranslate: false,
@@ -93,20 +97,23 @@ export const Container: React.FC<Props> = ({ children, fullWidth, ...meta }) => 
           },
         })}
       </Head>
-      <div className={classNames('wrapper', 'font-sans', inter.variable)}>
-        <Header fullWidth={fullWidth} metaTitle={meta.title} />
-        <main
-          className={classNames('relative m-auto w-screen grow overflow-x-hidden transition-all', {
-            'px-4 md:px-24': fullWidth,
-            'max-w-2xl px-6': !fullWidth,
-          })}
+      <div className={cn('wrapper font-sans', inter.variable)}>
+        <Header fullWidth={fullWidth} compact={root} metaTitle={meta.title} />
+        <Main
+          id="main-content"
+          tabIndex={-1}
+          className={cn(
+            'site-width site-content',
+            root && 'site-width-home',
+            fullWidth && 'site-width-wide',
+          )}
         >
           {children}
-        </main>
-        <Footer fullWidth={fullWidth} />
+        </Main>
+        <Footer fullWidth={fullWidth} compact={root} />
       </div>
 
-      <MagnetBackground />
+      {root && <MagnetBackground />}
     </div>
   );
 };

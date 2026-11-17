@@ -1,65 +1,115 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 
-import { BlogPost } from '@/components';
+import { Search, X } from 'lucide-react';
+
+import { BlogPost } from '@/components/BlogPost';
 import { Tags } from '@/components/Tag';
+import { Button } from '@/components/ui/button';
+import {
+  Empty,
+  EmptyContent,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+} from '@/components/ui/empty';
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupButton,
+  InputGroupInput,
+} from '@/components/ui/input-group';
 import { getTagDataBySlug, isTagSlug } from '@/lib';
-import { useLocale } from '@/lib/i18n';
-import { Post, TagObj } from '@/types';
+import type { Post, TagObj } from '@/types';
 
-type Props = {
-  posts: Post[];
-  tags: TagObj;
-  currentTag?: string;
-};
+type Props = { posts: Post[]; tags: TagObj; currentTag?: string };
 
-export const SearchLayout: React.FC<Props> = ({ tags, posts, currentTag }) => {
+export const SearchLayout = ({ tags, posts, currentTag }: Props) => {
   const [searchValue, setSearchValue] = useState('');
-  const locale = useLocale();
-
-  const filteredBlogPosts = useMemo(() => {
-    if (posts) {
-      return posts.filter((post) => {
-        const tagContent = post.tags ? post.tags.join(' ') : '';
-        const searchContent = [post.title, post.summary, tagContent].filter(Boolean).join(' ');
-        return searchContent.toLowerCase().includes(searchValue.toLowerCase());
-      });
-    }
-    return [];
-  }, [posts, searchValue]);
-
-  const currentTagName = useMemo(() => {
-    if (!currentTag || !isTagSlug(currentTag)) return currentTag;
-    return getTagDataBySlug(currentTag).name;
-  }, [currentTag]);
-
-  if (!locale) {
-    return null;
-  }
+  const input = useRef<HTMLInputElement>(null);
+  const query = searchValue.trim().toLocaleLowerCase();
+  const filteredPosts = useMemo(
+    () =>
+      posts.filter((post) =>
+        [post.title, post.summary, ...(post.tags ?? [])]
+          .filter(Boolean)
+          .join(' ')
+          .toLocaleLowerCase()
+          .includes(query),
+      ),
+    [posts, query],
+  );
+  const topic =
+    currentTag && isTagSlug(currentTag) ? getTagDataBySlug(currentTag).name : currentTag;
+  const clearSearch = () => {
+    setSearchValue('');
+    input.current?.focus();
+  };
 
   return (
-    <>
-      <div className="relative my-2">
-        <input
-          type="text"
-          aria-label={locale.POST.SEARCH}
-          placeholder={
-            currentTag ? `${locale.POST.SEARCHIN} #${currentTagName}` : locale.POST.SEARCH
-          }
-          className="block w-full rounded-lg border-2 border-gray-300 bg-gray-50 px-4 py-2 text-black dark:bg-gray-700 dark:text-white"
-          onChange={(e) => setSearchValue(e.target.value)}
-        />
-      </div>
-      <div className="bg-day dark:bg-night sticky top-16 z-10">
+    <section aria-labelledby="blog-title" className="blog-index">
+      <header className="page-intro">
+        <h1 id="blog-title" className="page-title">
+          {topic || 'Blog'}
+        </h1>
+        <p className="page-description">
+          {topic ? `Articles filed under ${topic}.` : 'Notes on frontend development and the web.'}
+        </p>
+      </header>
+      <div className="flex flex-col gap-5">
+        <InputGroup className="h-11">
+          <InputGroupInput
+            ref={input}
+            type="text"
+            aria-label="Search articles"
+            aria-controls="article-results"
+            placeholder={topic ? `Search in ${topic}…` : 'Search articles…'}
+            value={searchValue}
+            onChange={(event) => setSearchValue(event.target.value)}
+            onKeyDown={(event) => {
+              if (event.key === 'Escape') clearSearch();
+            }}
+          />
+          <InputGroupAddon>
+            <Search aria-hidden="true" />
+          </InputGroupAddon>
+          {!!searchValue && (
+            <InputGroupAddon align="inline-end">
+              <InputGroupButton aria-label="Clear search" size="icon-sm" onClick={clearSearch}>
+                <X />
+              </InputGroupButton>
+            </InputGroupAddon>
+          )}
+        </InputGroup>
         <Tags tags={tags} currentTag={currentTag} />
       </div>
-      <div className="article-container my-5">
-        {!filteredBlogPosts.length && (
-          <p className="text-gray-500 dark:text-gray-300">{locale.POST.NOTFOUND}</p>
+      <p className="result-count" role="status" aria-live="polite" aria-atomic="true">
+        {query ? `${filteredPosts.length} of ${posts.length}` : posts.length}{' '}
+        {posts.length === 1 ? 'article' : 'articles'}
+        {query && ` matching “${searchValue.trim()}”`}
+      </p>
+      <div id="article-results" className="article-container">
+        {filteredPosts.length ? (
+          filteredPosts.map((post) => <BlogPost key={post.id} post={post} />)
+        ) : (
+          <Empty>
+            <EmptyHeader>
+              <EmptyMedia variant="icon">
+                <Search />
+              </EmptyMedia>
+              <EmptyTitle>No articles found</EmptyTitle>
+              <EmptyDescription>Try a different keyword or clear your search.</EmptyDescription>
+            </EmptyHeader>
+            {!!searchValue && (
+              <EmptyContent>
+                <Button variant="outline" onClick={clearSearch}>
+                  Clear search
+                </Button>
+              </EmptyContent>
+            )}
+          </Empty>
         )}
-        {filteredBlogPosts.map((post) => (
-          <BlogPost key={post.id} post={post} />
-        ))}
       </div>
-    </>
+    </section>
   );
 };
